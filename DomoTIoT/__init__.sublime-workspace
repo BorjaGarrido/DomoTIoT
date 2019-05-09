@@ -1,0 +1,287 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"da",
+				"datosUsuario"
+			],
+			[
+				"for",
+				"for\tfor (…) {…}"
+			],
+			[
+				"b",
+				"boxDashed"
+			],
+			[
+				"di",
+				"div\tTag"
+			],
+			[
+				"in",
+				"input\tTag"
+			],
+			[
+				"div",
+				"div"
+			],
+			[
+				"divs",
+				"divsAmarillo"
+			],
+			[
+				"get",
+				"getElementsByTagName"
+			],
+			[
+				"M",
+				"MiCaja"
+			],
+			[
+				"es",
+				"esIndice"
+			],
+			[
+				"vector",
+				"vectorsito"
+			],
+			[
+				"edad",
+				"edades_string"
+			],
+			[
+				"text",
+				"texto2"
+			],
+			[
+				"tex",
+				"textos"
+			],
+			[
+				"suma",
+				"sumaYmuestra"
+			],
+			[
+				"i",
+				"i"
+			],
+			[
+				"numero_",
+				"numero_falso"
+			],
+			[
+				"opt",
+				"option\tTag"
+			],
+			[
+				"l",
+				"li\tTag"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/32-ejercicioDOM.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/formulario.html",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/31-timers.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/30-eventos.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/29-BOM.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/28-DOM.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/index.html",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/27-ejerciciosArrayBis.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/27-ejerciciosArray.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/25-arrays.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/26-arraysMulti.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/17-ejercicio7.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/21-funcionesAnonimas.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/24-plantillas.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/23-funcionesTexto.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/22-ambito.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/20-parametros2.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/19-funciones.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/18-ejercicio8.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/16-ejercicio6.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/15-ejercicio5.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/14-ejercicio4.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/13-ejercicio3.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/12-ejercicio2.JS",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/11-ejercicio1.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/10-ventanas.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/12-EJERCICIO2.JS",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/09-while.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/08-bucleFor.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/07-switch.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/06-condicionales.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/05-tiposDeDatos.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/04-constantes.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/01-holaMundo.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/02-variables.js",
+		"/C/Users/Borja Garrido/Desktop/cursoJS/hola-mundo/js/03-letYvar.js",
+		"/C/Users/Borja Garrido/Desktop/pepinos/hola-mundo/js/01-holaMundo.js",
+		"/C/Users/Borja Garrido/Desktop/pepinos/hola-mundo/index.html",
+		"/C/Users/Borja Garrido/Desktop/pepinos/contactos.html",
+		"/C/Users/Borja Garrido/Desktop/pepinos/contenidos.html",
+		"/C/Users/Borja Garrido/Desktop/pepinos/index.html",
+		"/C/Users/Borja Garrido/Desktop/pepinos/hola-mundo/js/holaMundo.js",
+		"/C/Users/Borja Garrido/Desktop/pepinos/hola-mundo/holaMundo.js",
+		"/C/Users/Borja Garrido/Desktop/toadCilindroEsfera.wrl",
+		"/C/Users/Borja Garrido/Desktop/BorjaGarridoCarmona-humano/con2wrl.py",
+		"/C/Users/Borja Garrido/Desktop/humano/con2wrl.py",
+		"/C/Users/Borja Garrido/Desktop/export.py"
+	],
+	"find":
+	{
+		"height": 31.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 31.0
+	},
+	"input":
+	{
+		"height": 44.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "__init__.sublime-project",
+	"replace":
+	{
+		"height": 58.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 355.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
