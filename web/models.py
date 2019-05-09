@@ -18,3 +18,6 @@ class dht(Modulo):
 	grados = models.IntegerField(default=None, null=True)
 	humedad = models.IntegerField(default=None, null=True)
 
+class rfid(Modulo):
+	uid = models.CharField(default=None, null=False, max_length= 50)
+
