@@ -34,4 +34,3 @@ class puerta(Modulo):
 
 class luz(Modulo):
 	luminosidad = models.IntegerField(default=0, null=True);
-
