@@ -32,5 +32,5 @@ class ldr(Modulo):
 class puerta(Modulo):
 	estado = models.BooleanField(default=False);
 
-class luz(Modulo):
+class led(Modulo):
 	luminosidad = models.IntegerField(default=0, null=True);
