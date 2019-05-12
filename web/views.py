@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.utils import timezone
+from .models import dht, rfid, mq2, ldr, led, puerta
 
 # Create your views here.
 

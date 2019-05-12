@@ -1,15 +1,25 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 from django.utils import timezone
 
 # Create your models here.
+
+Tipo_Modulo = (
+        ('RFID', 'RFID'),
+        ('Temperatura-Humedad', 'Temperatura-Humedad'),
+        ('Gas', 'Gas'),
+        ('Luminosidad', 'Luminosidad'),
+        ('Luz', 'Luz'),
+        ('Puerta', 'Puerta'),
+    )
 
 class Modulo(models.Model):
 	nombre = models.CharField(default=None, null=False, max_length= 50)
 	numero = models.IntegerField(default=None)
 	descripcion= models.CharField(default=None, null=False, max_length= 250)
 	topic=models.CharField(default=None, null=False, max_length= 50)
-	fecha = models.DateTimeField(default=timezone.now)
+	#fecha = models.DateTimeField(default=timezone.now)
+	tipo = models.CharField(default=None, max_length=50, choices=Tipo_Modulo)
 
 	def __unicode__(self):
 		return self.nombre
@@ -27,10 +37,22 @@ class mq2(Modulo):
 	smoke = models.IntegerField(default=None, null=True);
 
 class ldr(Modulo):
-	voltaje = models.IntegerField(default=None, null=True);
+	luminosidad = models.IntegerField(default=None, null=True);
 
 class puerta(Modulo):
 	estado = models.BooleanField(default=False);
 
 class led(Modulo):
-	luminosidad = models.IntegerField(default=0, null=True);
+	nivel = models.IntegerField(default=0, null=True);
+
+class UserProfile(User):
+	uid = models.CharField(default=None, null=False, max_length= 250)
+	dht = models.ManyToManyField(dht, blank=True) #recogera en una lista los modulos de temperatura que pertenecen a un usuario
+	rfid = models.ManyToManyField(rfid, blank=True)
+	mq2 = models.ManyToManyField(mq2, blank=True)
+	ldr = models.ManyToManyField(ldr, blank=True)
+	puerta = models.ManyToManyField(puerta, blank=True)
+	led = models.ManyToManyField(led, blank=True)
+
+	def __unicode__(self):
+		return self.user.username
