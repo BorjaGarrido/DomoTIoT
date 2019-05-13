@@ -1,7 +1,9 @@
 .page-header {
     background-color: #131D40;
     margin-top: 0;
+    margin-top: 0;
     padding: 20px 20px 20px 40px;
+    text-align: center;
 }
 
 .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
@@ -14,17 +16,38 @@
     margin-left: 40px;
 }
 
-h1, h2, h3, h4 {
-    color: #FCA205;
-    font-family: 'Sunflower', sans-serif;
+.caja {
+  font-size: 18px;
+  font-weight: 400;
+  background: #889ccf;
+  margin: 0 0 25px;
+  overflow: hidden;
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  border-radius: 35px 0px 35px 0px;
+  -moz-border-radius: 35px 0px 35px 0px;
+  -webkit-border-radius: 35px 0px 35px 0px;
+  border: 2px solid #131D40;
+  text-align: center;
 }
 
-.modulo {
-    margin-bottom: 70px;
-    padding-left: 15px;
+
+.sidebar {
+  position: static;
+  width: 25%;
+  height: 100vh;
+  background: #131D40;
+  font-size: 36pt;
 }
 
-.modulo h1 a, .modulo h1 a:visited {
-    color: #000000;
-    padding-left: 15px;
+.nav {
+  position: relative;
+  margin: 0 15%;
+  text-align: right;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: normal;
 }
+
