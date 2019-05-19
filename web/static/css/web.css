@@ -78,19 +78,22 @@ body {
 	padding-top: 80px; /* Relleno superior igual a la altura de la cabecera*/
 }
 
-/*
 .caja {
   width:35%;
   height:10%;
   font-size: 30pt;
   font-weight: 400;
   background: #ffffff;
-  margin: 25px 25px 25px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 200px;
+  margin-bottom: auto;
   overflow: hidden;
-  padding-top: 5px;
-  padding-right: 5px;
-  padding-bottom: 5px;
-  padding-left: 5px;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
   -moz-border-radius: 20px 20px 20px 20px;
   -webkit-border-radius: 20px 20px 20px 20px;
   text-align: center;
@@ -98,7 +101,7 @@ body {
   -moz-box-shadow: 7px 7px 14px 2px rgba(0,0,0,0.65);
   box-shadow: 7px 7px 14px 2px rgba(0,0,0,0.65);
   font-family: 'Sunflower', sans-serif;
-}*/
+}
 
 .temperatura {
   width:35%;

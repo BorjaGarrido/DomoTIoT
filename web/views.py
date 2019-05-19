@@ -6,3 +6,9 @@ from .models import dht, rfid, mq2, ldr, led, puerta
 
 def modulo_list(request):
     return render(request, 'web/modulo_list.html', {})
+
+def contacto(request):
+    return render(request, 'web/contacto.html')
+
+def acerca(request):
+    return render(request, 'web/acerca.html')
