@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>DomoTIoT</title>
+        <link rel='shortcut icon' href='http://www.newdesignfile.com/postpic/2014/02/black-home-icon_301605.png'>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/web.css' %}">
+
+        <link href="https://fonts.googleapis.com/css?family=Sunflower:300&display=swap" rel="stylesheet">
+    </head>
+    <body>
+      <header id="main-header">
+      		<a id="logo-header" href="/">
+      			<span class="site-name">DomoTIoT</span>
+      			<span class="site-desc">Tu casa domotizada</span>
+      		</a> <!-- / #logo-header -->
+      		<nav>
+      			<ul>
+      				<li><a href="/">Inicio</a></li>
+      				<li><a href="/">Acerca de</a></li>
+      				<li><a href="/">Contacto</a></li>
+      			</ul>
+    		  </nav><!-- / nav -->
+	     </header>
+        {% block content %}
+        
+        {% endblock %}
+        <footer id="main-footer">
+		         <p>&copy; 2019 <a href="/">Borja Garrido Carmona</a></p>
+	      </footer> <!-- / #main-footer -->
+
+    </body>
+</html>
