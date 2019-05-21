@@ -12,3 +12,6 @@ def contacto(request):
 
 def acerca(request):
     return render(request, 'web/acerca.html')
+
+def inicio(request):
+    return render(request, 'web/inicio.html')
