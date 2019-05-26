@@ -18,6 +18,10 @@
       		</a> <!-- / #logo-header -->
       		<nav>
       			<ul>
+              {% if user.is_authenticated %}
+              <li>{{ user.username }}</li>
+            
+              {% endif %}
       				<li><a href="/">Inicio</a></li>
       				<li><a href="/web/acerca/">Acerca de</a></li>
       				<li><a href="/web/contacto/">Contacto</a></li>

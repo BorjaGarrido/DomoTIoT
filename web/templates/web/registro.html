@@ -1,0 +1,15 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+<div class="cajaRegistro">
+<form method="post">
+  {% csrf_token  %}
+  {{ form.as_p }}
+  </form>
+  <div class="cajaBotonRegistro">
+  <button class="botonRegistro" type="submit">Guardar</button></div>
+
+</div>
+{% endblock %}
