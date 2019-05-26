@@ -3,7 +3,7 @@ from django.utils import timezone
 from .models import dht, rfid, mq2, ldr, led, puerta
 from .forms import registroForm
 from .models import UserProfile
-
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
@@ -30,3 +30,9 @@ class registroUsuario(CreateView):
     template_name = "web/registro.html"
     form_class = registroForm
     success_url = "/"
+
+class SignInView(LoginView):
+    template_name = 'web/login.html'
+
+class SignOutView(LogoutView):
+    pass

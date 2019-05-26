@@ -3,10 +3,13 @@
 {% block title %}Inicia Sesión{% endblock %}
 
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" name="submit">
-    </form>
-
+<div class="cajaLogin">
+  <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="cajaBotonRegistro">
+          <button class="botonRegistro" type="submit">Enviar</button>
+      </div>
+  </form>
+</div>
 {% endblock content %}
