@@ -290,7 +290,7 @@ body {
 .cajaRegistro {
   width:60%;
   height:100%;
-  font-size: 20pt;
+  font-size: 18pt;
   font-weight: 400;
   text-align: justify;
   margin-left: auto;
@@ -324,7 +324,7 @@ body {
     text-decoration: none;
     padding: 10px;
     font-weight: 600;
-    font-size: 24pt;
+    font-size: 22pt;
     color: #ffffff;
     background-color: #4488C5;
     border-radius: 6px;

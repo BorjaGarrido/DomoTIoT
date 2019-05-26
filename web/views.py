@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from .models import dht, rfid, mq2, ldr, led, puerta
 from .forms import registroForm
+from .models import UserProfile
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -25,7 +26,7 @@ def inicio(request):
     return render(request, 'web/inicio.html')
 
 class registroUsuario(CreateView):
-    model = User
+    model = UserProfile
     template_name = "web/registro.html"
     form_class = registroForm
     success_url = "/"
