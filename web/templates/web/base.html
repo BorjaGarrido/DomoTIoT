@@ -12,10 +12,17 @@
     </head>
     <body>
       <header id="main-header">
-      		<a id="logo-header" href="/">
+        {% if user.is_authenticated %}
+      		<a id="logo-header" href="/web/modulos/">
       			<span class="site-name">DomoTIoT</span>
       			<span class="site-desc">Tu casa domotizada</span>
-      		</a> <!-- / #logo-header -->
+            </a> <!-- / #logo-header -->
+        {% else %}
+        <a id="logo-header" href="/">
+          <span class="site-name">DomoTIoT</span>
+          <span class="site-desc">Tu casa domotizada</span>
+        </a> <!-- / #logo-header -->
+        {% endif %}
       		<nav>
       			<ul>
               {% if user.is_authenticated %}
