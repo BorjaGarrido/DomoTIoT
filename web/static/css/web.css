@@ -337,6 +337,12 @@ body {
     background-color: #ffffff;
 }
 
+.barraForm{
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
 .boton{
     text-decoration: none;
     padding: 10px;

@@ -21,8 +21,9 @@
               {% if user.is_authenticated %}
               <li>{{ user.username }}</li>
               <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
-              {% endif %}
+              {% else %}
       				<li><a href="/">Inicio</a></li>
+              {% endif %}
       				<li><a href="/web/acerca/">Acerca de</a></li>
       				<li><a href="/web/contacto/">Contacto</a></li>
       			</ul>

@@ -6,7 +6,8 @@
 <div class="cajaLogin">
   <form method="POST">
       {% csrf_token %}
-      {{ form.as_p }}
+        <p ><label for="id_username">Nombre de usuario:</label> <input class="barraForm" type="text" name="username" autofocus="" required="" id="id_username"></p>
+        <p ><label for="id_password">Contraseña:</label> <input class="barraForm" type="password" name="password" required="" id="id_password"></p>
       <div class="cajaBotonRegistro">
           <button class="botonRegistro" type="submit">Enviar</button>
       </div>
