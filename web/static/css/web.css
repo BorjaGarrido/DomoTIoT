@@ -288,7 +288,7 @@ body {
 }
 
 .cajaRegistro {
-  width:60%;
+  width:40%;
   height:100%;
   font-size: 18pt;
   font-weight: 400;
@@ -361,8 +361,8 @@ body {
 }
 
 .cajaLogin {
-  width:60%;
-  height:100%;
+  width:40%;
+  height:50%;
   font-size: 22pt;
   font-weight: 400;
   text-align: justify;
