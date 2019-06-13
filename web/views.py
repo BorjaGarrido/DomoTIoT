@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.utils import timezone
 from .models import dht, rfid, mq2, ldr, led, puerta
-from .forms import registroForm
-from .models import UserProfile
+from .forms import registroForm, newSensor
+from .models import UserProfile, Modulo
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -37,3 +37,9 @@ class SignInView(LoginView):
 
 class SignOutView(LogoutView):
     pass
+
+class newSensor(CreateView):
+    model = Modulo
+    template_name = "web/newSensor.html"
+    form_class = newSensor
+    success_url = "/web/modulos"
