@@ -8,9 +8,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
 from django.urls import reverse
+from django.conf import settings
+from django.shortcuts import redirect
 import smtplib
-
-
 
 # Create your views here.
 
@@ -26,11 +26,11 @@ def acerca(request):
 def inicio(request):
     return render(request, 'web/inicio.html')
 
-class registroUsuario(CreateView):
+"""class registroUsuario(CreateView):
     model = UserProfile
     template_name = "web/registro.html"
     form_class = registroForm
-    success_url = "/"
+    success_url = "/"""
 
 class SignInView(LoginView):
     template_name = 'web/login.html'
@@ -43,3 +43,13 @@ class newSensor(CreateView):
     template_name = "web/newSensor.html"
     form_class = newSensor
     success_url = "/web/modulos"
+
+def registroUsuario(request):
+    if request.method == 'POST':
+        form = registroForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(settings.LOGOUT_REDIRECT_URL)
+    else:
+        form = registroForm()
+    return render(request, 'web/registro.html', {'form': form})

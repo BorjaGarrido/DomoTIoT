@@ -77,6 +77,14 @@ body {
 	padding-top: 80px; /* Relleno superior igual a la altura de la cabecera*/
 }
 
+.bienvenido {
+  font-size: 34pt;
+  margin-top: 150px;
+  text-align: center;
+  font-family: 'Sunflower', sans-serif;
+}
+
+
 .caja {
   width:35%;
   height:10%;
