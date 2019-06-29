@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.utils import timezone
 from datetime import datetime
 from django.utils import formats
@@ -15,12 +15,15 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.conf import settings
 from django.shortcuts import redirect
+import datetime
 import smtplib
 
 # Create your views here.
-
+@login_required(login_url = '/web/login')
 def modulo_list(request):
-    return render(request, 'web/modulo_list.html', {})
+    dia = datetime.datetime.now().strftime('%d/%m/%Y')
+    hora = datetime.datetime.now().strftime('%H:%M:%S')
+    return render(request, 'web/modulo_list.html', {'dia': dia ,'hora': hora})
 
 def contacto(request):
     return render(request, 'web/contacto.html')
