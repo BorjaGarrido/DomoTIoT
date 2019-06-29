@@ -277,7 +277,6 @@ body {
 
 .hora {
   width:30%;
-  height: 50%;
   font-size: 38pt;
   margin: 1125px 67% 25px;
   overflow: hidden;
@@ -291,7 +290,6 @@ body {
 
 .fecha {
   width:30%;
-  height: 50%;
   font-size: 38pt;
   margin: 1225px 67% 25px;
   overflow: hidden;
