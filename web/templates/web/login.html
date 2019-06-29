@@ -6,7 +6,7 @@
 
   <form method="POST" class="cajaLogin">
     {% if form.errors %}
-      <h2>Nombre de usuario o contraseña nos válidos</h2>
+      <h2>Nombre de usuario o contraseña no válidos</h2><br>
     {% endif %}
       {% csrf_token %}
         <p ><label for="id_username">Nombre de usuario:</label> <input class="barraForm" type="text" name="username" autofocus="" required="" id="id_username"></p>

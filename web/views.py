@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.utils import timezone
+from datetime import datetime
+from django.utils import formats
 from .models import dht, rfid, mq2, ldr, led, puerta
-from .forms import registroForm, newSensor
+from .forms import registroForm, newSensorForm
 from .models import UserProfile, Modulo
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import AuthenticationForm
@@ -38,11 +40,39 @@ def inicio(request):
 """class SignInView(LoginView):
     template_name = 'web/login.html'"""
 
-class newSensor(CreateView):
+"""@login_required(login_url = '/users/login')
+def post_new(request):
+        if request.method == "POST":
+            form = PostForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.author = request.user
+                post.published_date = timezone.now()
+                post.save()
+                return redirect('/')
+        else:
+            form = PostForm()
+        return render(request, 'polls/post_edit.html', {'form': form})"""
+
+@login_required(login_url = '/web/login')
+def newSensor(request):
+    if request.method == "POST":
+        form = newSensorForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            """post.author = request.user
+            post.published_date = timezone.now()"""
+            post.save()
+            return redirect('/web/modulos')
+    else:
+        form = newSensorForm()
+    return render(request, 'web/newSensor.html', {'form': form})
+
+"""class newSensor(CreateView):
     model = Modulo
     template_name = "web/newSensor.html"
     form_class = newSensor
-    success_url = "/web/modulos"
+    success_url = "/web/modulos"""
 
 def registroUsuario(request):
     if request.method == 'POST':

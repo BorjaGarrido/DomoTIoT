@@ -3,6 +3,7 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
+
         <div class="cajaTitle">
           <p>DomoTIoT <img class="imagenInicio "src='http://www.newdesignfile.com/postpic/2014/02/black-home-icon_301605.png' height="150"> </p>
         </div>
@@ -12,13 +13,14 @@
             <a class="boton" href="/web/modulos/">Acceder al sistema</a>
           </div>
         {% else %}
-          <div class="cajaInicio">
+          <!---<div class="cajaInicio">
               <img src="https://image.flaticon.com/icons/png/512/97/97895.png" height="300">
-          </div>
+          </div>--->
           <div class="cajaBoton">
             <a class="boton" href="/web/login/">Login</a>
             <a class="boton" href="/web/registro/">Registro</a>
           </div>
         {% endif %}
         </div>
+
 {% endblock %}

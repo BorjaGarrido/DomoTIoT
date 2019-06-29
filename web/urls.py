@@ -12,5 +12,6 @@ urlpatterns = [
     path('web/registro/', views.registroUsuario, name='registro'),
     #path('web/logout/', views.SignOutView.as_view(), name='logout'),
     path('web/logout/', views.SignOutView, name='logout'),
-    path('web/newSensor/', views.newSensor.as_view(), name='nuevo_Sensor'),
+    #path('web/newSensor/', views.newSensor.as_view(), name='nuevo_Sensor'),
+    path('web/newSensor/', views.newSensor, name='nuevo_Sensor'),
 ]
