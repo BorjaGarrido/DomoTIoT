@@ -2,9 +2,8 @@ from django.shortcuts import render, render_to_response
 from django.utils import timezone
 from datetime import datetime
 from django.utils import formats
-from .models import dht, rfid, mq2, ldr, led, puerta
-from .forms import registroForm, newSensorForm
-from .models import UserProfile, Modulo
+from .forms import registroForm, newDHTSensorForm, newRFIDSensorForm, newDOORSensorForm, newMQ2SensorForm, newLDRSensorForm, newLEDSensorForm
+from .models import Modulo, UserProfile, dht, rfid, mq2, ldr, puerta, led
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
@@ -21,9 +20,9 @@ import smtplib
 # Create your views here.
 @login_required(login_url = '/web/login')
 def modulo_list(request):
-    dia = datetime.datetime.now().strftime('%d/%m/%Y')
-    hora = datetime.datetime.now().strftime('%H:%M:%S')
-    return render(request, 'web/modulo_list.html', {'dia': dia ,'hora': hora})
+    #dia = datetime.datetime.now().strftime('%d/%m/%Y')
+    #hora = datetime.datetime.now().strftime('%H:%M:%S')
+    return render(request, 'web/modulo_list.html') #{'hora': hora})
 
 def contacto(request):
     return render(request, 'web/contacto.html')
@@ -34,48 +33,25 @@ def acerca(request):
 def inicio(request):
     return render(request, 'web/inicio.html')
 
-"""class registroUsuario(CreateView):
-    model = UserProfile
-    template_name = "web/registro.html"
-    form_class = registroForm
-    success_url = "/"""
+def dhtDetail(request):
+    return render(request, 'web/dhtDetail.html')
 
-"""class SignInView(LoginView):
-    template_name = 'web/login.html'"""
+def rfidDetail(request):
+    member = UserProfile.objects.get(username=request.user)
+    uid = member.uid
+    return render(request, 'web/rfidDetail.html', {'uid': uid})
 
-"""@login_required(login_url = '/users/login')
-def post_new(request):
-        if request.method == "POST":
-            form = PostForm(request.POST)
-            if form.is_valid():
-                post = form.save(commit=False)
-                post.author = request.user
-                post.published_date = timezone.now()
-                post.save()
-                return redirect('/')
-        else:
-            form = PostForm()
-        return render(request, 'polls/post_edit.html', {'form': form})"""
+def mq2Detail(request):
+    return render(request, 'web/mq2Detail.html')
 
-@login_required(login_url = '/web/login')
-def newSensor(request):
-    if request.method == "POST":
-        form = newSensorForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            """post.author = request.user
-            post.published_date = timezone.now()"""
-            post.save()
-            return redirect('/web/modulos')
-    else:
-        form = newSensorForm()
-    return render(request, 'web/newSensor.html', {'form': form})
+def ldrDetail(request):
+    return render(request, 'web/ldrDetail.html')
 
-"""class newSensor(CreateView):
-    model = Modulo
-    template_name = "web/newSensor.html"
-    form_class = newSensor
-    success_url = "/web/modulos"""
+def doorDetail(request):
+    return render(request, 'web/doorDetail.html')
+
+def ledDetail(request):
+    return render(request, 'web/ledDetail.html')
 
 def registroUsuario(request):
     if request.method == 'POST':
@@ -112,3 +88,75 @@ def SignInView(request):
 def SignOutView(request):
     logout(request)
     return redirect('/')
+
+@login_required(login_url = '/web/login')
+def newDHTSensor(request):
+    if request.method == "POST":
+        form = newDHTSensorForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('/web/dhtDetail')
+    else:
+        form = newDHTSensorForm()
+    return render(request, 'web/newDhtSensor.html', {'form': form})
+
+@login_required(login_url = '/web/login')
+def newRFIDSensor(request):
+    if request.method == "POST":
+        form = newRFIDSensorForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('/web/rfidDetail')
+    else:
+        form = newRFIDSensorForm()
+    return render(request, 'web/newRfidSensor.html', {'form': form})
+
+@login_required(login_url = '/web/login')
+def newMQ2Sensor(request):
+    if request.method == "POST":
+        form = newMQ2SensorForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('/web/mq2Detail')
+    else:
+        form = newMQ2SensorForm()
+    return render(request, 'web/newMq2Sensor.html', {'form': form})
+
+@login_required(login_url = '/web/login')
+def newLDRSensor(request):
+    if request.method == "POST":
+        form = newLDRSensorForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('/web/ldrDetail')
+    else:
+        form = newLDRSensorForm()
+    return render(request, 'web/newLdrSensor.html', {'form': form})
+
+@login_required(login_url = '/web/login')
+def newDOORSensor(request):
+    if request.method == "POST":
+        form = newDOORSensorForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('/web/doorDetail')
+    else:
+        form = newDOORSensorForm()
+    return render(request, 'web/newDoorSensor.html', {'form': form})
+
+@login_required(login_url = '/web/login')
+def newLEDSensor(request):
+    if request.method == "POST":
+        form = newLEDSensorForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('/web/ledDetail')
+    else:
+        form = newLEDSensorForm()
+    return render(request, 'web/newLedSensor.html', {'form': form})

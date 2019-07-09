@@ -2,45 +2,37 @@
 {% block content %}
         <div class="caja1">
           <div class="temperatura">
-              <span ><h2><a href="">Temperatura y humedad</a></h2>
-              <a href=""><img src="https://png.pngtree.com/svg/20170417/948583fe9c.svg" height="180"></a>
+              <span ><h2><a href="/web/dhtDetail/">Temperatura y humedad</a></h2>
+              <a href="/web/dhtDetail/"><img src="https://png.pngtree.com/svg/20170417/948583fe9c.svg" height="180"></a>
           </div>
           <div class="aire">
-              <h2 ><a href="">Calidad del aire</a></h2>
-              <a href=""><img src="http://download.seaicons.com/download/i90015/icons8/windows-8/icons8-windows-8-astrology-air-element.ico" height="180"></a>
+              <h2 ><a href="/web/mq2Detail/">Calidad del aire</a></h2>
+              <a href="/web/mq2Detail/"><img src="http://download.seaicons.com/download/i90015/icons8/windows-8/icons8-windows-8-astrology-air-element.ico" height="180"></a>
           </div>
         </div>
 
         <div class="caja2">
           <div class="luz">
-              <h2 ><a href="">Nivel de Luz</a></h2>
-              <a href=""><img src="https://png.pngtree.com/svg/20170906/b18485309c.svg" height="180"></a>
+              <h2 ><a href="/web/ldrDetail/">Nivel de Luz</a></h2>
+              <a href="/web/ldrDetail/"><img src="https://png.pngtree.com/svg/20170906/b18485309c.svg" height="180"></a>
           </div>
 
           <div class="puerta">
-              <h2 ><a href="">Estado de Puertas</a></h2>
-              <a href=""><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDBlsUWikZe7TB5Mq4aGMHBT17V52fdAwAubmpVhKaUSBsENC-" height="180"></a>
+              <h2 ><a href="/web/doorDetail/">Estado de Puertas</a></h2>
+              <a href="/web/doorDetail/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDBlsUWikZe7TB5Mq4aGMHBT17V52fdAwAubmpVhKaUSBsENC-" height="180"></a>
           </div>
         </div>
 
         <div class="caja3">
           <div class="luces">
-              <h2 ><a href="">Luces</a></h2>
-              <a href=""><img src="http://simpleicon.com/wp-content/uploads/light-bulb-3.png" height="185"></a>
+              <h2 ><a href="/web/ledDetail/">Luces</a></h2>
+              <a href="/web/ledDetail/"><img src="http://simpleicon.com/wp-content/uploads/light-bulb-3.png" height="185"></a>
           </div>
 
           <div class="rfid">
-              <h2 ><a href="">RFID</a></h2>
-              <a href=""><img src="https://image.flaticon.com/icons/png/512/33/33433.png" height="185"></a>
+              <h2 ><a href="/web/rfidDetail/">RFID</a></h2>
+              <a href="/web/rfidDetail/"><img src="https://image.flaticon.com/icons/png/512/33/33433.png" height="185"></a>
           </div>
-        </div>
-
-        <div class="nuevoSensor">
-            <h2 ><a href="/web/newSensor/">Añadir sensor</a></h2>
-        </div>
-
-        <div class="eliminaSensor">
-            <h2 ><a href="">Eliminar sensor</a></h2>
         </div>
 
         <div class="hora" id="reloj">
@@ -73,6 +65,5 @@
                 document.write(day + "/" + month + "/" + year);
           </script>
         </div>
-
 
 {% endblock %}

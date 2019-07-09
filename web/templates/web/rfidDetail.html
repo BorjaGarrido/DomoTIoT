@@ -1,0 +1,19 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Detalle RFID{% endblock %}
+
+{% block content %}
+
+<div class="cajaRegistro">
+  <h2>{{ uid }}</h2>
+</div>
+
+<div class="nuevoSensor">
+    <h2 ><a href="/web/newRfidSensor/">Añadir sensor</a></h2>
+</div>
+
+<div class="eliminaSensor">
+    <h2 ><a href="">Eliminar sensor</a></h2>
+</div>
+
+{% endblock %}

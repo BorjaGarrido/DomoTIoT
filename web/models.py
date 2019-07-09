@@ -1,28 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-
+import uuid
+from uuid import uuid4
 # Create your models here.
 
-Tipo_Modulo = (
-        ('RFID', 'RFID'),
-        ('Temperatura-Humedad', 'Temperatura-Humedad'),
-        ('Gas', 'Gas'),
-        ('Luminosidad', 'Luminosidad'),
-        ('Luz', 'Luz'),
-        ('Puerta', 'Puerta'),
-    )
-
 class Modulo(models.Model):
-	nombre = models.CharField(default=None, null=False, max_length= 50)
-	numero = models.IntegerField(default=None)
-	descripcion= models.CharField(default=None, null=False, max_length= 250)
-	topic=models.CharField(default=None, null=False, max_length= 50)
-	#fecha = models.DateTimeField(default=timezone.now)
-	tipo = models.CharField(default=None, max_length=50, choices=Tipo_Modulo)
+    nombre = models.CharField(primary_key=True, null=False, max_length= 50)
+    descripcion= models.CharField(default=None, null=False, max_length= 250)
+    topic=models.CharField(default=None, null=False, max_length= 50)
 
-	def __unicode__(self):
-		return self.nombre
+    def __unicode__(self):
+    	return self.nombre
 
 class dht(Modulo):
 	temperatura = models.IntegerField(default=None, null=True)

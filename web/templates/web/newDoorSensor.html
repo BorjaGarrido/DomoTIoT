@@ -1,0 +1,17 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Nuevo sensor DOOR{% endblock %}
+
+{% block content %}
+<div class="cajaRegistro">
+<form method="post">
+  {% csrf_token  %}
+    <p><label for="id_nombre">Nombre:</label> <input class="barraForm" type="text" name="nombre" maxlength="150" autofocus="" required="" id="id_nombre"> <span class="helptext"></span></p><ul><li>Requerido. 150 carácteres como máximo. Únicamente letras, dígitos y @/./+/-/_ </li></ul><p></p>
+    <p><label for="id_descripcion">Descripción:</label> <input class="barraForm"  type="text" name="descripcion" maxlength="150" id="id_descripcion"></p>
+    <p><label for="id_topic">Topic:</label> <input class="barraForm"  type="text" name="topic" maxlength="254" id="id_topic"><span class="helptext"></span></p><ul><li>El topic debe seguir una estructura similar a "casa/temperatura", "casa/salón/humedad", "garaje/trastero/luz" etc."</li></ul><p></p>
+  <div class="cajaBotonRegistro">
+      <button class="botonRegistro" type="submit">Guardar</button>
+  </div>
+</form>
+</div>
+{% endblock %}

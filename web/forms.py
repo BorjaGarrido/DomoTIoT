@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import UserProfile, Modulo
+from .models import Modulo, UserProfile, dht, rfid, mq2, ldr, puerta, led
 
 class registroForm(UserCreationForm):
     class Meta:
@@ -19,17 +19,68 @@ class registroForm(UserCreationForm):
         exclude = ['groups', 'user_permissions', 'is_staff', 'is_active', 'is_superuser', 'last_login', 'date_joined' ,'password',
         'dht', 'rfid', 'mq2', 'ldr', 'puerta', 'led']
 
-class newSensorForm(forms.ModelForm):
+class newDHTSensorForm(forms.ModelForm):
     class Meta:
-        model = Modulo
+        model = dht
         field = ['nombre',
-                'numero',
                 'descripcion',
-                'topic',
-                'tipo',]
+                'topic',]
         labels = {'nombre': 'Nombre' ,
-                    'numero': 'Número identificador',
                     'descripcion': 'Descripción',
-                    'topic': 'Topic',
-                    'tipo': 'Tipo',}
-        exclude = []
+                    'topic': 'Topic',}
+        exclude = ['temperatura', 'humedad']
+
+class newRFIDSensorForm(forms.ModelForm):
+    class Meta:
+        model = rfid
+        field = ['nombre',
+                'descripcion',
+                'topic',]
+        labels = {'nombre': 'Nombre' ,
+                    'descripcion': 'Descripción',
+                    'topic': 'Topic',}
+        exclude = ['uid']
+
+class newMQ2SensorForm(forms.ModelForm):
+    class Meta:
+        model = mq2
+        field = ['nombre',
+                'descripcion',
+                'topic',]
+        labels = {'nombre': 'Nombre' ,
+                    'descripcion': 'Descripción',
+                    'topic': 'Topic',}
+        exclude = ['lpg', 'co2', 'smoke']
+
+class newLDRSensorForm(forms.ModelForm):
+    class Meta:
+        model = ldr
+        field = ['nombre',
+                'descripcion',
+                'topic',]
+        labels = {'nombre': 'Nombre' ,
+                    'descripcion': 'Descripción',
+                    'topic': 'Topic',}
+        exclude = ['luminosidad']
+
+class newDOORSensorForm(forms.ModelForm):
+    class Meta:
+        model = puerta
+        field = ['nombre',
+                'descripcion',
+                'topic',]
+        labels = {'nombre': 'Nombre' ,
+                    'descripcion': 'Descripción',
+                    'topic': 'Topic',}
+        exclude = ['estado']
+
+class newLEDSensorForm(forms.ModelForm):
+    class Meta:
+        model = led
+        field = ['nombre',
+                'descripcion',
+                'topic',]
+        labels = {'nombre': 'Nombre' ,
+                    'descripcion': 'Descripción',
+                    'topic': 'Topic',}
+        exclude = ['nivel']
