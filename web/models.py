@@ -8,7 +8,7 @@ from uuid import uuid4
 class Modulo(models.Model):
     nombre = models.CharField(primary_key=True, null=False, max_length= 50)
     descripcion= models.CharField(default=None, null=False, max_length= 250)
-    topic=models.CharField(default=None, null=False, max_length= 50)
+    topic=models.CharField(default=None, null=False, max_length= 50, unique=True)
 
     def __unicode__(self):
     	return self.nombre
