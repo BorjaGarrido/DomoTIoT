@@ -2,10 +2,11 @@ from django.shortcuts import render, render_to_response
 from django.utils import timezone
 from datetime import datetime
 from django.utils import formats
-from .forms import registroForm, newDHTSensorForm, newRFIDSensorForm, newDOORSensorForm, newMQ2SensorForm, newLDRSensorForm, newLEDSensorForm
+from .forms import registroForm, newDHTSensorForm, newRFIDSensorForm, newDOORSensorForm, newMQ2SensorForm, newLDRSensorForm, newLEDSensorForm, editUserForm
 from .models import Modulo, UserProfile, dht, rfid, mq2, ldr, puerta, led
+from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -63,6 +64,25 @@ def registroUsuario(request):
         form = registroForm()
     return render(request, 'web/registro.html', {'form': form})
 
+def userDetail(request):
+    member = request.user.userprofile
+    nombre = member.first_name
+    apellido = member.last_name
+    username = member.username
+    uid = member.uid
+    email = member.email
+    return render(request, 'web/userDetail.html', {'nombre': nombre, 'apellido': apellido, 'username': username, 'uid': uid, 'email': email})
+
+@login_required(login_url='/web/login/')
+def editUser(request):
+    if request.method == 'POST':
+        form = editUserForm(request.POST, instance=request.user.userprofile)
+        if form.is_valid():
+            form.save()
+            return redirect('/web/userDetail')
+    else:
+        form = editUserForm(instance=request.user.userprofile)
+        return render(request, 'web/editUserForm.html', {'form': form})
 
 def SignInView(request):
     if request.method == 'POST':
@@ -94,8 +114,8 @@ def newDHTSensor(request):
     if request.method == "POST":
         form = newDHTSensorForm(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.save()
+            post = form.save()
+            request.user.userprofile.dht.add(post)
             return redirect('/web/dhtDetail')
     else:
         form = newDHTSensorForm()
@@ -160,3 +180,9 @@ def newLEDSensor(request):
     else:
         form = newLEDSensorForm()
     return render(request, 'web/newLedSensor.html', {'form': form})
+
+@login_required(login_url = '/web/login')
+def dhtSensor_list(request):
+    member = request.user.userprofile
+    lista = member.dht.all()
+    return render(request, 'web/listDHT.html', {'lista':lista})

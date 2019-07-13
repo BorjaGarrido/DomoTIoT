@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
 from .models import Modulo, UserProfile, dht, rfid, mq2, ldr, puerta, led
 
@@ -84,3 +84,17 @@ class newLEDSensorForm(forms.ModelForm):
                     'descripcion': 'Descripción',
                     'topic': 'Topic',}
         exclude = ['nivel']
+
+class editUserForm(UserChangeForm):
+    class Meta:
+        model = UserProfile
+        field = ['first_name',
+                    'last_name',
+                    'email',
+                    'uid',]
+        labels = {'first_name': 'Nombre',
+                        'last_name': 'Apellido',
+                        'email': 'Correo electronico',
+                        'uid': 'Identificador UID',}
+        exclude = ['username', 'groups', 'user_permissions', 'is_staff', 'is_active', 'is_superuser', 'last_login', 'date_joined' ,'password',
+            'dht', 'rfid', 'mq2', 'ldr', 'puerta', 'led']

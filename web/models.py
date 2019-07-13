@@ -14,19 +14,19 @@ class Modulo(models.Model):
     	return self.nombre
 
 class dht(Modulo):
-	temperatura = models.IntegerField(default=None, null=True)
-	humedad = models.IntegerField(default=None, null=True)
+	temperatura = models.FloatField(default=None, null=True)
+	humedad = models.FloatField(default=None, null=True)
 
 class rfid(Modulo):
 	uid = models.CharField(default=None, null=False, max_length= 50)
 
 class mq2(Modulo):
-	lpg = models.IntegerField(default=None, null=True);
-	co2 = models.IntegerField(default=None, null=True);
-	smoke = models.IntegerField(default=None, null=True);
+	lpg = models.FloatField(default=None, null=True);
+	co2 = models.FloatField(default=None, null=True);
+	smoke = models.FloatField(default=None, null=True);
 
 class ldr(Modulo):
-	luminosidad = models.IntegerField(default=None, null=True);
+	luminosidad = models.FloatField(default=None, null=True);
 
 class puerta(Modulo):
 	estado = models.BooleanField(default=False);
@@ -35,7 +35,7 @@ class led(Modulo):
 	nivel = models.IntegerField(default=0, null=True);
 
 class UserProfile(User):
-	uid = models.CharField(default=None, null=False, max_length= 250)
+	uid = models.CharField(default=None, null=False, max_length= 250, unique=True)
 	dht = models.ManyToManyField(dht, blank=True) #recogera en una lista los modulos de temperatura que pertenecen a un usuario
 	rfid = models.ManyToManyField(rfid, blank=True)
 	mq2 = models.ManyToManyField(mq2, blank=True)

@@ -26,7 +26,7 @@
       		<nav>
       			<ul>
               {% if user.is_authenticated %}
-              <li>{{ user.username }}</li>
+              <li><a href="/web/userDetail/">{{ user.username }}</a></li>
               <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
               {% else %}
       				<li><a href="/">Inicio</a></li>

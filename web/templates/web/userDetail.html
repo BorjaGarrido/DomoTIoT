@@ -1,0 +1,18 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Detalle Usuario{% endblock %}
+
+{% block content %}
+
+<div class="cajaUserDetail">
+  <h2><div><span style="float:right">{{ username }}</span>Nombre de usuario: </div></h2>
+  <h2><div><span style="float:right">{{ nombre }}</span>Nombre: </div></h2>
+  <h2><div><span style="float:right">{{ apellido }}</span>Apellido: </div></h2>
+  <h2><div><span style="float:right">{{ email }}</span>Email: </div></h2>
+  <h2><div><span style="float:right">{{ uid }}</span>UID: </div></h2>
+</div>
+<div class="cajaBotonUser">
+  <a class="botonUser" href="/web/editUserForm/">Modificiar datos</a>
+</div>
+
+{% endblock %}

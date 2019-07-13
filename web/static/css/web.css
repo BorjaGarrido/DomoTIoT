@@ -452,6 +452,57 @@ body {
   font-family: 'Sunflower', sans-serif;
 }
 
+.cajaUserDetail {
+  width:45%;
+  height:100%;
+  font-size: 18pt;
+  font-weight: 400;
+  text-align: justify;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  margin-bottom: auto;
+  overflow: hidden;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  font-family: 'Sunflower', sans-serif;
+  border: 2.5px solid #333;
+  border-radius: 6px;
+}
+
+.cajaBotonUser {
+  width:60%;
+  height:100%;
+  font-size: 42pt;
+  font-weight: 400;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  margin-bottom: auto;
+  overflow: hidden;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  font-family: 'Sunflower', sans-serif;
+}
+
+.botonUser{
+    text-decoration: none;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 24pt;
+    color: #ffffff;
+    background-color: #4488C5;
+    border-radius: 6px;
+    border: 2px solid #0016b0;
+    font-family: 'Sunflower', sans-serif;
+}
+
+
 #main-footer {
   font-family: 'Sunflower', sans-serif;
 	background: #333;

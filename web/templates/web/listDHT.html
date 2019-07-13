@@ -1,0 +1,22 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Eliminar sensor DHT{% endblock %}
+
+{% block content %}
+<div class="cajaRegistro" style="text-align:center">
+
+    <table class="table table-striped">
+        <tr>
+          <th style="text-align:center">Nombre</th>
+          <th style="text-align:center">Topic</th>
+        </tr>
+        {% for dht in lista %}
+        <tr>
+          <td>{{ dht.nombre }}</td>
+          <td>{{ dht.topic }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock %}
