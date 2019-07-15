@@ -19,8 +19,10 @@
     <p><label for="id_password1">Contraseña:</label> <input class="barraForm"  type="password" name="password1" required="" id="id_password1"> <span class="helptext"></span></p><ul><li>Su contraseña no puede asemejarse tanto a su otra información personal.</li><li>Su contraseña debe contener al menos 8 caracteres.</li><li>Su contraseña no puede ser una clave utilizada comunmente.</li><li>Su contraseña no puede ser completamente numérica.</li></ul><p></p>
     <h2>{{ form.password2.errors.as_text }}</h2>
     <p><label for="id_password2">Contraseña (confirmación):</label> <input class="barraForm"  type="password" name="password2" required="" id="id_password2"> <span class="helptext"></span></p><ul><li>Para verificar, introduzca la misma contraseña anterior.</li></ul><p></p>
-  
-  <p>{{ form.fieldname.errors.as_text }}</p>
-</form>
+    <div class="cajaBotonRegistro">
+          <button class="botonRegistro" type="submit">Guardar</button>
+      </div>
+      <p>{{ form.fieldname.errors.as_text }}</p>
+    </form>
 </div>
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'web/base.html' %}
 
-{% block title %}Editar sensor DHT{% endblock %}
+{% block title %}Editar sensor LDR{% endblock %}
 
 {% block content %}
 <div class="cajaSensorDetail" style="text-align:center">
@@ -12,11 +12,11 @@
           <th style="text-align:center"></th>
           <th style="text-align:center"></th>
         </tr>
-        {% for dht in lista %}
+        {% for ldr in lista %}
         <tr>
-          <td>{{ dht.nombre }}</td>
-          <td>{{ dht.topic }}</td>
-          <td><a href="/web/dht/{{ dht.id }}/edit/"><button type="button" class="btn btn-default">
+          <td>{{ ldr.nombre }}</td>
+          <td>{{ ldr.topic }}</td>
+          <td><a href="/web/ldr/{{ ldr.id }}/edit/"><button type="button" class="btn btn-default">
             <span class="glyphicon glyphicon-pencil"></span>
           </button></a></td>
           <td><a href=""><button type="button" class="btn btn-default">
@@ -25,7 +25,7 @@
         </tr>
         {% endfor %}
       {% else %}
-          <h2>No hay sensores DHT asignados para el usuario</h2>
+          <h2>No hay sensores LDR asignados para el usuario</h2>
       {% endif %}
     </table>
 </div>

@@ -6,7 +6,7 @@ from uuid import uuid4
 # Create your models here.
 
 class Modulo(models.Model):
-    nombre = models.CharField(primary_key=True, null=False, max_length= 50)
+    nombre = models.CharField(default=None, null=False, max_length= 50, unique=True )
     descripcion= models.CharField(default=None, null=False, max_length= 250)
     topic=models.CharField(default=None, null=False, max_length= 50, unique=True)
 
@@ -18,7 +18,7 @@ class dht(Modulo):
 	humedad = models.FloatField(default=None, null=True)
 
 class rfid(Modulo):
-	uid = models.CharField(default=None, null=False, max_length= 50)
+	uid = models.CharField(default=None, null=True, max_length= 50)
 
 class mq2(Modulo):
 	lpg = models.FloatField(default=None, null=True);

@@ -1,4 +1,5 @@
 from django.urls import path
+from django.conf.urls import include, url
 from . import views
 
 urlpatterns = [
@@ -11,6 +12,7 @@ urlpatterns = [
     path('web/logout/', views.SignOutView, name='logout'),
     path('web/userDetail/', views.userDetail, name='userDetail'),
     path('web/editUserForm/', views.editUser, name='editUserForm'),
+    path('web/changePasswordForm/', views.changePassword, name='changePasswordForm'),
     path('web/dhtDetail/', views.dhtDetail, name='dhtDetail'),
     path('web/rfidDetail/', views.rfidDetail, name='rfidDetail'),
     path('web/mq2Detail/', views.mq2Detail, name='dhtDetail'),
@@ -24,4 +26,15 @@ urlpatterns = [
     path('web/newDoorSensor/', views.newDOORSensor, name='nuevo_DOORSensor'),
     path('web/newLedSensor/', views.newLEDSensor, name='nuevo_LEDSensor'),
     path('web/listDHT/', views.dhtSensor_list, name='list_DHTSensor'),
+    path('web/listRFID/', views.rfidSensor_list, name='list_RFIDSensor'),
+    path('web/listMQ2/', views.mq2Sensor_list, name='list_MQ2Sensor'),
+    path('web/listDOOR/', views.doorSensor_list, name='list_DOORSensor'),
+    path('web/listLDR/', views.ldrSensor_list, name='list_LDRSensor'),
+    path('web/listLED/', views.ledSensor_list, name='list_LEDSensor'),
+    url(r'^web/dht/(?P<dht_id>\d+)/edit/$', views.dht_edit, name='dht_edit'),
+    url(r'^web/rfid/(?P<rfid_id>\d+)/edit/$', views.rfid_edit, name='rfid_edit'),
+    url(r'^web/mq2/(?P<mq2_id>\d+)/edit/$', views.mq2_edit, name='mq2_edit'),
+    url(r'^web/door/(?P<puerta_id>\d+)/edit/$', views.door_edit, name='door_edit'),
+    url(r'^web/ldr/(?P<ldr_id>\d+)/edit/$', views.ldr_edit, name='ldr_edit'),
+    url(r'^web/led/(?P<led_id>\d+)/edit/$', views.led_edit, name='led_edit'),
 ]

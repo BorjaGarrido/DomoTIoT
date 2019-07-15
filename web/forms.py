@@ -10,12 +10,16 @@ class registroForm(UserCreationForm):
                 'first_name',
                 'last_name',
                 'email',
-                'uid',]
+                'uid',
+                'password1',
+                'password2',]
         labels = {'username': 'Nombre de usuario' ,
                     'first_name': 'Nombre',
                     'last_name': 'Apellido',
                     'email': 'Correo electronico',
-                    'uid': 'Identificador UID',}
+                    'uid': 'Identificador UID',
+                    'password1': 'Contraseña',
+                    'password2':'Contraseña (confirmación)',}
         exclude = ['groups', 'user_permissions', 'is_staff', 'is_active', 'is_superuser', 'last_login', 'date_joined' ,'password',
         'dht', 'rfid', 'mq2', 'ldr', 'puerta', 'led']
 
@@ -96,5 +100,5 @@ class editUserForm(UserChangeForm):
                         'last_name': 'Apellido',
                         'email': 'Correo electronico',
                         'uid': 'Identificador UID',}
-        exclude = ['username', 'groups', 'user_permissions', 'is_staff', 'is_active', 'is_superuser', 'last_login', 'date_joined' ,'password',
+        exclude = ['username', 'groups', 'user_permissions', 'is_staff', 'is_active', 'is_superuser', 'last_login', 'date_joined' , 'password1', 'password2', 'password',
             'dht', 'rfid', 'mq2', 'ldr', 'puerta', 'led']

@@ -1,25 +1,11 @@
 {% extends 'web/base.html' %}
 
-{% block title %}Registro{% endblock %}
+{% block title %}Editar datos del usuario{% endblock %}
 
 {% load widget_tweaks %}
 
 {% block content %}
 <div class="cajaRegistro">
-
-<!---<form method="post">
-  {% csrf_token  %}
-    <h2>{{ form.username.errors.as_text }}</h2>
-    <p><label for="id_first_name">Nombre:</label> <input class="barraForm"  type="text" name="first_name" maxlength="30" id="id_first_name"></p
-    <p><label for="id_last_name">Apellido:</label> <input class="barraForm"  type="text" name="last_name" maxlength="150" id="id_last_name"></p>
-    <h2>{{ form.email.errors.as_text }}</h2>
-    <p><label for="id_email">Correo electronico:</label> <input class="barraForm"  type="email" name="email" maxlength="254" id="id_email"></p>
-    <h2>{{ form.uid.errors.as_text }}</h2>
-    <p><label for="id_uid">Identificador UID:</label> <input class="barraForm"  type="text" name="uid" maxlength="250" required="" id="id_uid"></p>
-    <div class="cajaBotonRegistro">
-        <button class="botonRegistro" type="submit">Guardar</button>
-    </div>
-</form>--->
 
   <form method="post">
   {% csrf_token  %}
