@@ -1,0 +1,21 @@
+{% extends 'web/base.html' %}
+
+{% block title %}borrar sensor MQ2{% endblock %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="cajaRegistro">
+
+  <form method="post">
+  {% csrf_token  %}
+    <h2>¿Estás seguro de que quieres eliminar el sensor MQ2?</h2>
+
+    <div class="cajaBotonRegistro">
+        <button class="botonRegistro" type="submit">Eliminar</button>
+        <a href="/web/listMQ2/" class="botonRegistro">Cancelar</a>
+    </div>
+  </form>
+
+</div>
+{% endblock %}

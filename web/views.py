@@ -301,7 +301,7 @@ def led_edit(request, led_id):
                 post = form.save()
                 request.user.userprofile.led.add(post)
                 messages.success(request, 'Sensor LED editado correctamente')
-                return redirect('/web/listDHT')
+                return redirect('/web/listLED')
         else:
             form = newLEDSensorForm(instance=post)
         return render(request, 'web/led_edit.html', {'form': form})
@@ -315,7 +315,55 @@ def ldr_edit(request, ldr_id):
                 post = form.save()
                 request.user.userprofile.ldr.add(post)
                 messages.success(request, 'Sensor LDR editado correctamente')
-                return redirect('/web/listDHT')
+                return redirect('/web/listLDR')
         else:
             form = newLDRSensorForm(instance=post)
         return render(request, 'web/ldr_edit.html', {'form': form})
+
+@login_required(login_url = '/web/login')
+def dht_delete(request, dht_id):
+    post = get_object_or_404(dht, pk=dht_id)
+    if request.method == "POST":
+        post.delete()
+        return redirect('/web/listDHT')
+    return render(request, 'web/dht_delete.html')
+
+@login_required(login_url = '/web/login')
+def mq2_delete(request, mq2_id):
+    post = get_object_or_404(mq2, pk=mq2_id)
+    if request.method == "POST":
+        post.delete()
+        return redirect('/web/listMQ2')
+    return render(request, 'web/mq2_delete.html')
+
+@login_required(login_url = '/web/login')
+def rfid_delete(request, rfid_id):
+    post = get_object_or_404(rfid, pk=rfid_id)
+    if request.method == "POST":
+        post.delete()
+        return redirect('/web/listRFID')
+    return render(request, 'web/rfid_delete.html')
+
+@login_required(login_url = '/web/login')
+def door_delete(request, door_id):
+    post = get_object_or_404(puerta, pk=door_id)
+    if request.method == "POST":
+        post.delete()
+        return redirect('/web/listDOOR')
+    return render(request, 'web/door_delete.html')
+
+@login_required(login_url = '/web/login')
+def ldr_delete(request, ldr_id):
+    post = get_object_or_404(ldr, pk=ldr_id)
+    if request.method == "POST":
+        post.delete()
+        return redirect('/web/listLDR')
+    return render(request, 'web/ldr_delete.html')
+
+@login_required(login_url = '/web/login')
+def led_delete(request, led_id):
+    post = get_object_or_404(led, pk=led_id)
+    if request.method == "POST":
+        post.delete()
+        return redirect('/web/listLED')
+    return render(request, 'web/led_delete.html')
