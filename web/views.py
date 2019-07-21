@@ -2,7 +2,7 @@ from django.shortcuts import render, render_to_response, get_object_or_404
 from django.utils import timezone
 from datetime import datetime
 from django.utils import formats
-from .forms import registroForm, newDHTSensorForm, newRFIDSensorForm, newDOORSensorForm, newMQ2SensorForm, newLDRSensorForm, newLEDSensorForm, editUserForm
+from .forms import registroForm, newDHTSensorForm, newRFIDSensorForm, newDOORSensorForm, newMQ2SensorForm, newLDRSensorForm, newLEDSensorForm, editUserForm, addSensorForm
 from .models import Modulo, UserProfile, dht, rfid, mq2, ldr, puerta, led
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
@@ -14,6 +14,7 @@ from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.conf import settings
+from django.db.models import Q
 from django.shortcuts import redirect
 import datetime
 import smtplib
@@ -21,9 +22,7 @@ import smtplib
 # Create your views here.
 @login_required(login_url = '/web/login')
 def modulo_list(request):
-    #dia = datetime.datetime.now().strftime('%d/%m/%Y')
-    #hora = datetime.datetime.now().strftime('%H:%M:%S')
-    return render(request, 'web/modulo_list.html') #{'hora': hora})
+    return render(request, 'web/modulo_list.html')
 
 def contacto(request):
     return render(request, 'web/contacto.html')
@@ -57,7 +56,6 @@ def registroUsuario(request):
         form = registroForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Usuario registrado correctamente')
             return redirect(settings.LOGOUT_REDIRECT_URL)
     else:
         form = registroForm()
@@ -69,8 +67,9 @@ def userDetail(request):
     apellido = member.last_name
     username = member.username
     uid = member.uid
+    codigoHogar = member.codigoHogar
     email = member.email
-    return render(request, 'web/userDetail.html', {'nombre': nombre, 'apellido': apellido, 'username': username, 'uid': uid, 'email': email})
+    return render(request, 'web/userDetail.html', {'nombre': nombre, 'apellido': apellido, 'username': username, 'uid': uid, 'codigoHogar': codigoHogar, 'email': email})
 
 @login_required(login_url='/web/login/')
 def editUser(request):
@@ -78,7 +77,6 @@ def editUser(request):
         form = editUserForm(request.POST, instance=request.user.userprofile)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Usuario editado correctamente')
             return redirect('/web/userDetail')
     else:
         form = editUserForm(instance=request.user.userprofile)
@@ -90,7 +88,6 @@ def changePassword(request):
         form = PasswordChangeForm(data=request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Contraseña modificada correctamente')
             return redirect('/')
     else:
         form = PasswordChangeForm(user=request.user)
@@ -119,7 +116,6 @@ def SignInView(request):
 @login_required(login_url='/web/login/')
 def SignOutView(request):
     logout(request)
-    messages.success(request, 'Hasta la próxima')
     return redirect('/')
 
 @login_required(login_url = '/web/login')
@@ -127,78 +123,216 @@ def newDHTSensor(request):
     if request.method == "POST":
         form = newDHTSensorForm(request.POST)
         if form.is_valid():
-            post = form.save()
-            request.user.userprofile.dht.add(post)
-            messages.success(request, 'Sensor DHT añadido correctamente')
+            post = form.save(commit=False)
+            member = request.user.userprofile
+            post.codigoHogar = member.codigoHogar
+            post.save()
+            member.dht.add(post)
             return redirect('/web/dhtDetail')
     else:
         form = newDHTSensorForm()
     return render(request, 'web/newDhtSensor.html', {'form': form})
 
 @login_required(login_url = '/web/login')
+def addDHTSensor(request):
+    form = addSensorForm()
+    if request.method == "POST":
+        form = addSensorForm(request.POST)
+        if form.is_valid():
+            sensor = form.cleaned_data
+            nombre = sensor.get('nombre')
+            if dht.objects.filter(nombre=nombre).exists():
+                sensor = dht.objects.get(nombre=nombre)
+                member = request.user.userprofile
+                if sensor.codigoHogar == member.codigoHogar:
+                    member.dht.add(sensor)
+                return redirect('/web/dhtDetail')
+            else:
+                messages.error(request, '*Sensor DHT no encontrado')
+                return redirect('/web/addDhtSensor')
+    else:
+        form = addSensorForm()
+    return render(request, 'web/addDhtSensor.html', {'form': form})
+
+@login_required(login_url = '/web/login')
 def newRFIDSensor(request):
     if request.method == "POST":
         form = newRFIDSensorForm(request.POST)
         if form.is_valid():
-            post = form.save()
-            request.user.userprofile.rfid.add(post)
-            messages.success(request, 'Sensor RFID añadido correctamente')
+            post = form.save(commit=False)
+            member = request.user.userprofile
+            post.codigoHogar = member.codigoHogar
+            post.save()
+            member.rfid.add(post)
             return redirect('/web/rfidDetail')
     else:
         form = newRFIDSensorForm()
     return render(request, 'web/newRfidSensor.html', {'form': form})
 
 @login_required(login_url = '/web/login')
+def addRFIDSensor(request):
+    form = addSensorForm()
+    if request.method == "POST":
+        form = addSensorForm(request.POST)
+        if form.is_valid():
+            sensor = form.cleaned_data
+            nombre = sensor.get('nombre')
+            if rfid.objects.filter(nombre=nombre).exists():
+                sensor = rfid.objects.get(nombre=nombre)
+                member = request.user.userprofile
+                if sensor.codigoHogar == member.codigoHogar:
+                    member.rfid.add(sensor)
+                return redirect('/web/rfidDetail')
+            else:
+                messages.error(request, '*Sensor RFID no encontrado')
+                return redirect('/web/addRfidSensor')
+    else:
+        form = addSensorForm()
+    return render(request, 'web/addRfidSensor.html', {'form': form})
+
+@login_required(login_url = '/web/login')
 def newMQ2Sensor(request):
     if request.method == "POST":
         form = newMQ2SensorForm(request.POST)
         if form.is_valid():
-            post = form.save()
-            request.user.userprofile.mq2.add(post)
-            messages.success(request, 'Sensor MQ2 añadido correctamente')
+            post = form.save(commit=False)
+            member = request.user.userprofile
+            post.codigoHogar = member.codigoHogar
+            post.save()
+            member.mq2.add(post)
             return redirect('/web/mq2Detail')
     else:
         form = newMQ2SensorForm()
     return render(request, 'web/newMq2Sensor.html', {'form': form})
 
 @login_required(login_url = '/web/login')
+def addMQ2Sensor(request):
+    form = addSensorForm()
+    if request.method == "POST":
+        form = addSensorForm(request.POST)
+        if form.is_valid():
+            sensor = form.cleaned_data
+            nombre = sensor.get('nombre')
+            if mq2.objects.filter(nombre=nombre).exists():
+                sensor = mq2.objects.get(nombre=nombre)
+                member = request.user.userprofile
+                if sensor.codigoHogar == member.codigoHogar:
+                    member.mq2.add(sensor)
+                return redirect('/web/mq2Detail')
+            else:
+                messages.error(request, '*Sensor MQ2 no encontrado')
+                return redirect('/web/addMq2Sensor')
+    else:
+        form = addSensorForm()
+    return render(request, 'web/addMq2Sensor.html', {'form': form})
+
+@login_required(login_url = '/web/login')
 def newLDRSensor(request):
     if request.method == "POST":
         form = newLDRSensorForm(request.POST)
         if form.is_valid():
-            post = form.save()
-            request.user.userprofile.ldr.add(post)
-            messages.success(request, 'Sensor LDR añadido correctamente')
+            post = form.save(commit=False)
+            member = request.user.userprofile
+            post.codigoHogar = member.codigoHogar
+            post.save()
+            member.ldr.add(post)
             return redirect('/web/ldrDetail')
     else:
         form = newLDRSensorForm()
     return render(request, 'web/newLdrSensor.html', {'form': form})
 
 @login_required(login_url = '/web/login')
+def addLDRSensor(request):
+    form = addSensorForm()
+    if request.method == "POST":
+        form = addSensorForm(request.POST)
+        if form.is_valid():
+            sensor = form.cleaned_data
+            nombre = sensor.get('nombre')
+            if ldr.objects.filter(nombre=nombre).exists():
+                sensor = ldr.objects.get(nombre=nombre)
+                member = request.user.userprofile
+                if sensor.codigoHogar == member.codigoHogar:
+                    member.ldr.add(sensor)
+                return redirect('/web/ldrDetail')
+            else:
+                messages.error(request, '*Sensor LDR no encontrado')
+                return redirect('/web/addLdrSensor')
+    else:
+        form = addSensorForm()
+    return render(request, 'web/addLdrSensor.html', {'form': form})
+
+@login_required(login_url = '/web/login')
 def newDOORSensor(request):
     if request.method == "POST":
         form = newDOORSensorForm(request.POST)
         if form.is_valid():
-            post = form.save()
-            request.user.userprofile.puerta.add(post)
-            messages.success(request, 'Sensor de puerta añadido correctamente')
+            post = form.save(commit=False)
+            member = request.user.userprofile
+            post.codigoHogar = member.codigoHogar
+            post.save()
+            member.puerta.add(post)
             return redirect('/web/doorDetail')
     else:
         form = newDOORSensorForm()
     return render(request, 'web/newDoorSensor.html', {'form': form})
 
 @login_required(login_url = '/web/login')
+def addDOORSensor(request):
+    form = addSensorForm()
+    if request.method == "POST":
+        form = addSensorForm(request.POST)
+        if form.is_valid():
+            sensor = form.cleaned_data
+            nombre = sensor.get('nombre')
+            if puerta.objects.filter(nombre=nombre).exists():
+                sensor = puerta.objects.get(nombre=nombre)
+                member = request.user.userprofile
+                if sensor.codigoHogar == member.codigoHogar:
+                    member.puerta.add(sensor)
+                return redirect('/web/doorDetail')
+            else:
+                messages.error(request, '*Sensor DOOR no encontrado')
+                return redirect('/web/addDoorSensor')
+    else:
+        form = addSensorForm()
+    return render(request, 'web/addDoorSensor.html', {'form': form})
+
+@login_required(login_url = '/web/login')
 def newLEDSensor(request):
     if request.method == "POST":
         form = newLEDSensorForm(request.POST)
         if form.is_valid():
-            post = form.save()
-            request.user.userprofile.led.add(post)
-            messages.success(request, 'Sensor LED añadido correctamente')
+            post = form.save(commit=False)
+            member = request.user.userprofile
+            post.codigoHogar = member.codigoHogar
+            post.save()
+            member.led.add(post)
             return redirect('/web/ledDetail')
     else:
         form = newLEDSensorForm()
     return render(request, 'web/newLedSensor.html', {'form': form})
+
+@login_required(login_url = '/web/login')
+def addLEDSensor(request):
+    form = addSensorForm()
+    if request.method == "POST":
+        form = addSensorForm(request.POST)
+        if form.is_valid():
+            sensor = form.cleaned_data
+            nombre = sensor.get('nombre')
+            if led.objects.filter(nombre=nombre).exists():
+                sensor = led.objects.get(nombre=nombre)
+                member = request.user.userprofile
+                if sensor.codigoHogar == member.codigoHogar:
+                    member.led.add(sensor)
+                return redirect('/web/ledDetail')
+            else:
+                messages.error(request, '*Sensor LED no encontrado')
+                return redirect('/web/addLedSensor')
+    else:
+        form = addSensorForm()
+    return render(request, 'web/addLedSensor.html', {'form': form})
 
 @login_required(login_url = '/web/login')
 def dhtSensor_list(request):
@@ -244,7 +378,6 @@ def dht_edit(request, dht_id):
             if form.is_valid():
                 post = form.save()
                 request.user.userprofile.dht.add(post)
-                messages.success(request, 'Sensor DHT editado correctamente')
                 return redirect('/web/listDHT')
         else:
             form = newDHTSensorForm(instance=post)
@@ -258,7 +391,6 @@ def mq2_edit(request, mq2_id):
             if form.is_valid():
                 post = form.save()
                 request.user.userprofile.mq2.add(post)
-                messages.success(request, 'Sensor MQ2 editado correctamente')
                 return redirect('/web/listMQ2')
         else:
             form = newMQ2SensorForm(instance=post)
@@ -272,7 +404,6 @@ def rfid_edit(request, rfid_id):
             if form.is_valid():
                 post = form.save()
                 request.user.userprofile.rfid.add(post)
-                messages.success(request, 'Sensor RFID editado correctamente')
                 return redirect('/web/listRFID')
         else:
             form = newRFIDSensorForm(instance=post)
@@ -286,7 +417,6 @@ def door_edit(request, puerta_id):
             if form.is_valid():
                 post = form.save()
                 request.user.userprofile.puerta.add(post)
-                messages.success(request, 'Sensor de puerta editado correctamente')
                 return redirect('/web/listDOOR')
         else:
             form = newDOORSensorForm(instance=post)
@@ -300,7 +430,6 @@ def led_edit(request, led_id):
             if form.is_valid():
                 post = form.save()
                 request.user.userprofile.led.add(post)
-                messages.success(request, 'Sensor LED editado correctamente')
                 return redirect('/web/listLED')
         else:
             form = newLEDSensorForm(instance=post)
@@ -314,7 +443,6 @@ def ldr_edit(request, ldr_id):
             if form.is_valid():
                 post = form.save()
                 request.user.userprofile.ldr.add(post)
-                messages.success(request, 'Sensor LDR editado correctamente')
                 return redirect('/web/listLDR')
         else:
             form = newLDRSensorForm(instance=post)

@@ -43,4 +43,10 @@ urlpatterns = [
     url(r'^web/door/(?P<door_id>\d+)/delete/$', views.door_delete, name='door_delete'),
     url(r'^web/ldr/(?P<ldr_id>\d+)/delete/$', views.ldr_delete, name='ldr_delete'),
     url(r'^web/led/(?P<led_id>\d+)/delete/$', views.led_delete, name='led_delete'),
+    path('web/addDhtSensor/', views.addDHTSensor, name='add_DHTSensor'),
+    path('web/addRfidSensor/', views.addRFIDSensor, name='add_RFIDSensor'),
+    path('web/addMq2Sensor/', views.addMQ2Sensor, name='add_MQ2Sensor'),
+    path('web/addDoorSensor/', views.addDOORSensor, name='add_DoorSensor'),
+    path('web/addLdrSensor/', views.addLDRSensor, name='add_LDRSensor'),
+    path('web/addLedSensor/', views.addLEDSensor, name='add_LEDSensor'),
 ]
