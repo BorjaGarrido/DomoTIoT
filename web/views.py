@@ -1,3 +1,5 @@
+#Librerías, formularios y modelos usuados en las funciones del archivo views.py
+
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.utils import timezone
 from datetime import datetime
@@ -19,49 +21,152 @@ from django.shortcuts import redirect
 import datetime
 import smtplib
 
-# Create your views here.
+"""
+    Nombre: modulo_list.
+    Función: vista que solicita el html con los elementos divs a través de los cuales se puede
+             acceder a los details de cada uno de los tipos de sensores.
+
+             *Consultar modulo_list.html
+"""
 @login_required(login_url = '/web/login')
 def modulo_list(request):
+
     return render(request, 'web/modulo_list.html')
 
+"""
+    Nombre: contacto.
+    Función: vista que solicita el html con información de contacto sobre el desarrollador de la web.
+
+             *Consultar contactos.html
+"""
 def contacto(request):
+
     return render(request, 'web/contacto.html')
 
+"""
+    Nombre: acerca.
+    Función: vista que solicita el html con información acerca del desarrollador.
+
+             *Consultar acerca.html
+"""
 def acerca(request):
+
     return render(request, 'web/acerca.html')
 
+"""
+    Nombre: inicio.
+    Función: vista que muestra el html principal de la aplicación donde se encuentran los botones de
+             login y registro.
+
+             *Consultar inicio.html
+"""
 def inicio(request):
+
     return render(request, 'web/inicio.html')
 
+"""
+    Nombre: dhtDetail.
+    Función: vista que muestra los valores de cada uno de los sensores de humedad y temperatura.
+
+             *Consultar dhtDetail.html
+"""
+@login_required(login_url = '/web/login')
 def dhtDetail(request):
+
     return render(request, 'web/dhtDetail.html')
 
+"""
+    Nombre: dhtDetail.
+    Función: vista que muestra la información acerca de los sensores lectores RFID del sistema.
+
+             *Consultar rfidDetail.html
+"""
+@login_required(login_url = '/web/login')
 def rfidDetail(request):
+
     return render(request, 'web/rfidDetail.html')
 
+"""
+    Nombre: mq2Detail.
+    Función: vista que muestra los valores de cada uno de los sensores que controlan la calidad del aire, es decir,
+	     CO2, humo y gas LPG.
+
+             *Consultar mq2Detail.html
+"""
+@login_required(login_url = '/web/login')
 def mq2Detail(request):
+
     return render(request, 'web/mq2Detail.html')
 
+"""
+    Nombre: ldrDetail.
+    Función: vista que muestra los valores de cada uno de los sensores LDR. Este sensor es capaz de medir la cantidad
+	     de luz que hay en el ambiente.
+
+             *Consultar ldrDetail.html
+"""
+@login_required(login_url = '/web/login')
 def ldrDetail(request):
+
     return render(request, 'web/ldrDetail.html')
 
+"""
+    Nombre: doorDetail.
+    Función: vista que muestra el estado de los sensores de las puertas, abierto o cerrado, y desde el cual se podrán
+	     abrir al igual que se hace con el lector RFID.
+
+             *Consultar doorDetail.html
+"""
+@login_required(login_url = '/web/login')
 def doorDetail(request):
+
     return render(request, 'web/doorDetail.html')
 
+"""
+    Nombre: ledDetail.
+    Función: vista que muestra el nivel de luz dado por los leds del hogar, desde este también se podrá controlar este
+	     nivel. Todo ello controlado por los pines PWM del NodeMCU al que se conectan.
+
+             *Consultar ledDetail.html
+"""
+@login_required(login_url = '/web/login')
 def ledDetail(request):
+
     return render(request, 'web/ledDetail.html')
 
+
+"""
+    Nombre: registroUsuario.
+    Función: vista usada para el registro de usuarios en el sistema. Esta función hace uso del formulario "registroForm"
+	     existente en el archivo forms.py.
+
+             *Consultar registroUsuario.html
+"""
 def registroUsuario(request):
-    if request.method == 'POST':
-        form = registroForm(request.POST)
+
+    if request.method == 'POST': #Formulario vinculado a los datos POST
+        form = registroForm(request.POST) #Llamada al formulario específico para el registro de un usuario
+
         if form.is_valid():
             form.save()
-            return redirect(settings.LOGOUT_REDIRECT_URL)
+            return redirect(settings.LOGOUT_REDIRECT_URL) #Si el formulario es válido se guarda el usuario y se redirige a la página principal mediante el "REDIRECT"
+
     else:
         form = registroForm()
+
     return render(request, 'web/registro.html', {'form': form})
 
+
+"""
+    Nombre: userDetail.
+    Función: vista usada para mostrar la información principal del usuario a modo de perfil del mismo, con
+	     la idea de mostrar los cambios cuando de modifiquen sus datos.
+
+             *Consultar userDetail.html
+"""
+@login_required(login_url = '/web/login')
 def userDetail(request):
+    #Recoge los datos actuales del usuario logueado y los guarda en las variables correspondientes
     member = request.user.userprofile
     nombre = member.first_name
     apellido = member.last_name
@@ -69,47 +174,80 @@ def userDetail(request):
     uid = member.uid
     codigoHogar = member.codigoHogar
     email = member.email
+    #Devuelve las variables para que se puedan mostrar en el html
     return render(request, 'web/userDetail.html', {'nombre': nombre, 'apellido': apellido, 'username': username, 'uid': uid, 'codigoHogar': codigoHogar, 'email': email})
 
+"""
+    Nombre: editUser.
+    Función: vista para modificar los datos del usuario a partir del formulario editUserForm del archivo forms.py.
+
+             *Consultar editUser.html
+"""
 @login_required(login_url='/web/login/')
 def editUser(request):
-    if request.method == 'POST':
-        form = editUserForm(request.POST, instance=request.user.userprofile)
+
+    if request.method == 'POST': #Formulario vinculado a los datos POST
+        form = editUserForm(request.POST, instance=request.user.userprofile) #Formulario específico de modificación de datos
+
         if form.is_valid():
             form.save()
-            return redirect('/web/userDetail')
+            return redirect('/web/userDetail') #Si el formulario es válido guarda los cambios y redirige a la vista del perfil del usuario
+
     else:
         form = editUserForm(instance=request.user.userprofile)
-        return render(request, 'web/editUserForm.html', {'form': form})
 
+    return render(request, 'web/editUserForm.html', {'form': form})
+
+"""
+    Nombre: changePassword.
+    Función: vista para cambiar la contraseña del usuario. Uso del formulario propio de Django, "PasswordChangeForm", que contempla
+	     la contraseña inicial y la nueva contraseña con su correspondiente confirmación.
+
+             *Consultar changePassword.html
+"""
 @login_required(login_url='/web/login/')
 def changePassword(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(data=request.POST, user=request.user)
-        if form.is_valid():
+
+    if request.method == 'POST': #Formulario vinculado a los datos POST
+        form = PasswordChangeForm(data=request.POST, user=request.user) #Formulario de cambio de contraseña propio del framework Django.
+
+        if form.is_valid(): #Si el formulario es válido guarda los cambios y redirige a la página principal, para volver a iniciar sesión
             form.save()
             return redirect('/')
+
     else:
         form = PasswordChangeForm(user=request.user)
-        return render(request, 'web/changePasswordForm.html', {'form': form})
 
+    return render(request, 'web/changePasswordForm.html', {'form': form})
+
+"""
+    Nombre: SignInView.
+    Función: vista generérica para el inicio de sesión de un usuario. Uso de formulario propio de Django, "AuthenticationForm", el cual solo
+	     contempla los campos Username y Password.
+
+             *Consultar SignInView.html
+"""
 def SignInView(request):
+
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
+
+        if form.is_valid(): #Si el formulario es válido se recogen las variables introducidas y se comparan con la base de datos de los usuarios
             user = request.POST['username']
             passwd = request.POST['password']
-            access = authenticate(username=user, password=passwd)
-            if access is not None:
+            access = authenticate(username=user, password=passwd) #Búsqueda de usuario
+
+            if access is not None: #Si el usuario existe
                 if access.is_active:
                     login(request, access)
-                    return redirect('/')
+                    return redirect('/') #Se completa el logueo y se redirige a la página principal.
                 else:
-                    return render(request, 'web/inactive.html')
+                    return render(request, 'web/inactive.html') #Si el usuario está inactivo, se muestra
             else:
-                return render(request, 'web/nouser.html')
+                return render(request, 'web/nouser.html') #Si el usuario no existe se muestra
     else:
         form = AuthenticationForm()
+
     context = {'form': form}
     return render(request,'web/login.html', context)
 
