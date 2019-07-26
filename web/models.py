@@ -5,10 +5,21 @@ import uuid
 from uuid import uuid4
 # Create your models here.
 
+Tipo_Modulo = (
+        ('rfid', 'rfid'),
+        ('dht', 'dht'),
+        ('mq2', 'mq2'),
+        ('ldr', 'ldr'),
+        ('led', 'led'),
+        ('puerta', 'puerta'),
+    )
+
+
 class Modulo(models.Model):
-    nombre = models.CharField(default=None, null=True, max_length= 50, unique=True)
-    descripcion= models.CharField(default=None, null=True, max_length= 250)
+    nombre = models.CharField(default=None, null=False, max_length= 50, unique=True)
+    descripcion= models.CharField(default=None, null=False, max_length= 250)
     topic=models.CharField(default=None, null=False, max_length= 50, unique=True)
+    tipo = models.CharField(default=None, null=False, max_length=50, choices=Tipo_Modulo)
     codigoHogar = models.CharField(default=None, null=True, max_length= 50)
 
     def __unicode__(self):

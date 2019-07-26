@@ -25,6 +25,21 @@ class registroForm(UserCreationForm):
         exclude = ['groups', 'user_permissions', 'is_staff', 'is_active', 'is_superuser', 'last_login', 'date_joined' ,'password',
         'dht', 'rfid', 'mq2', 'ldr', 'puerta', 'led']
 
+class newSensorForm(forms.ModelForm):
+    class Meta:
+        model = Modulo
+        fields = ('nombre',
+                'descripcion',
+                'topic',
+                'tipo',)
+
+class editSensorForm(forms.ModelForm):
+    class Meta:
+        model = Modulo
+        fields = ('nombre',
+                'descripcion',
+                'topic',)
+
 class newDHTSensorForm(forms.ModelForm):
     class Meta:
         model = dht

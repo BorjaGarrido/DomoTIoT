@@ -1,6 +1,6 @@
 {% extends 'web/base.html' %}
 
-{% block title %}Editar datos del sensor RFID{% endblock %}
+{% block title %}Editar datos del sensor{% endblock %}
 
 {% load widget_tweaks %}
 
@@ -15,7 +15,7 @@
     <p>{{ form.descripcion|add_class:"barraForm" }}</p>
     <p><b>Topic:</b></p>
     <p >{{ form.topic|add_class:"barraForm" }}</p>
-
+    
     <div class="cajaBotonRegistro">
         <button class="botonRegistro" type="submit">Guardar</button>
     </div>

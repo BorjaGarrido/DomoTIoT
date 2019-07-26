@@ -4,7 +4,7 @@ from django.shortcuts import render, render_to_response, get_object_or_404
 from django.utils import timezone
 from datetime import datetime
 from django.utils import formats
-from .forms import registroForm, newDHTSensorForm, newRFIDSensorForm, newDOORSensorForm, newMQ2SensorForm, newLDRSensorForm, newLEDSensorForm, editUserForm, addSensorForm
+from .forms import registroForm, newDHTSensorForm, newRFIDSensorForm, newDOORSensorForm, newMQ2SensorForm, newLDRSensorForm, newLEDSensorForm, editUserForm, addSensorForm, newSensorForm, editSensorForm
 from .models import Modulo, UserProfile, dht, rfid, mq2, ldr, puerta, led
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
@@ -251,385 +251,248 @@ def SignInView(request):
     context = {'form': form}
     return render(request,'web/login.html', context)
 
+"""
+    Nombre: SignOutView.
+    Función: vista generérica para el cierre de sesión del usuario logueado. Redirige a la página principal.
+"""
 @login_required(login_url='/web/login/')
 def SignOutView(request):
     logout(request)
     return redirect('/')
 
 @login_required(login_url = '/web/login')
-def newDHTSensor(request):
+def newSensor(request):
+
     if request.method == "POST":
-        form = newDHTSensorForm(request.POST)
+        form = newSensorForm(request.POST)
+
         if form.is_valid():
-            post = form.save(commit=False)
-            member = request.user.userprofile
-            post.codigoHogar = member.codigoHogar
-            post.save()
-            member.dht.add(post)
-            return redirect('/web/dhtDetail')
+            member = request.user.userprofile #Se recoge en una variable al usuario actual logueado que ha completado el formulario
+
+            module= Modulo()
+            module.nombre = form.cleaned_data['nombre']
+            module.descripcion = form.cleaned_data['descripcion']
+            module.topic = form.cleaned_data['topic']
+            module.tipo = form.cleaned_data['tipo']
+            module.codigoHogar = member.codigoHogar
+
+            if module.tipo == "dht":
+                dht_LOCAL = dht()
+                dht_LOCAL.nombre = module.nombre
+                dht_LOCAL.descripcion = module.descripcion
+                dht_LOCAL.topic = module.topic
+                dht_LOCAL.tipo = module.tipo
+                dht_LOCAL.codigoHogar = module.codigoHogar
+                dht_LOCAL.save()
+                member.dht.add(dht_LOCAL)
+
+            elif module.tipo == "rfid":
+                rfid_LOCAL= rfid()
+                rfid_LOCAL.nombre= module.nombre
+                rfid_LOCAL.descripcion= module.descripcion
+                rfid_LOCAL.topic= module.topic
+                rfid_LOCAL.tipo= module.tipo
+                rfid_LOCAL.codigoHogar = module.codigoHogar
+                rfid_LOCAL.save()
+                member.rfid.add(rfid_LOCAL)
+
+            elif module.tipo == "mq2":
+                mq2_LOCAL= mq2()
+                mq2_LOCAL.nombre= module.nombre
+                mq2_LOCAL.descripcion= module.descripcion
+                mq2_LOCAL.topic= module.topic
+                mq2_LOCAL.tipo= module.tipo
+                mq2_LOCAL.codigoHogar = module.codigoHogar
+                mq2_LOCAL.save()
+                member.mq2.add(mq2_LOCAL)
+
+            elif module.tipo == "ldr":
+                ldr_LOCAL= ldr()
+                ldr_LOCAL.nombre= module.nombre
+                ldr_LOCAL.descripcion= module.descripcion
+                ldr_LOCAL.topic= module.topic
+                ldr_LOCAL.tipo= module.tipo
+                ldr_LOCAL.codigoHogar = module.codigoHogar
+                ldr_LOCAL.save()
+                member.ldr.add(ldr_LOCAL)
+
+            elif module.tipo == "led":
+                led_LOCAL= led()
+                led_LOCAL.nombre= module.nombre
+                led_LOCAL.descripcion= module.descripcion
+                led_LOCAL.topic= module.topic
+                led_LOCAL.tipo= module.tipo
+                led_LOCAL.codigoHogar = module.codigoHogar
+                led_LOCAL.save()
+                member.led.add(led_LOCAL)
+
+            elif module.tipo == "puerta":
+                puerta_LOCAL= puerta()
+                puerta_LOCAL.nombre= module.nombre
+                puerta_LOCAL.descripcion= module.descripcion
+                puerta_LOCAL.topic= module.topic
+                puerta_LOCAL.tipo= module.tipo
+                puerta_LOCAL.codigoHogar = module.codigoHogar
+                puerta_LOCAL.save()
+                member.puerta.add(puerta_LOCAL)
+
+            return redirect('/web/modulos') #Se guardan el formulario y la nueva instanciación del tipo de modelo DHT para el usuario
     else:
-        form = newDHTSensorForm()
-    return render(request, 'web/newDhtSensor.html', {'form': form})
+        form = newSensorForm()
+
+    return render(request, 'web/newSensor.html', {'form': form})
 
 @login_required(login_url = '/web/login')
-def addDHTSensor(request):
-    form = addSensorForm()
+def addSensor(request):
+
     if request.method == "POST":
-        form = addSensorForm(request.POST)
+        form = addSensorForm(request.POST) #Se rellena el formulario específico, el cual solo cotiene el nombre del sensor, que es único en todos los casos
+
         if form.is_valid():
             sensor = form.cleaned_data
-            nombre = sensor.get('nombre')
+            nombre = sensor.get('nombre') #Si el formulario es válido obtiene guarda el nombre en una variable
+            member = request.user.userprofile #Si existe un sensor con ese nombre lo almacena en otra variable
+
             if dht.objects.filter(nombre=nombre).exists():
                 sensor = dht.objects.get(nombre=nombre)
-                member = request.user.userprofile
-                if sensor.codigoHogar == member.codigoHogar:
+
+                if sensor.codigoHogar == member.codigoHogar: #Si además ese sensor tiene el mismo códigoHogar que el usuario logueado lo añade a su lista de sensores
                     member.dht.add(sensor)
-                return redirect('/web/dhtDetail')
-            else:
-                messages.error(request, '*Sensor DHT no encontrado')
-                return redirect('/web/addDhtSensor')
-    else:
-        form = addSensorForm()
-    return render(request, 'web/addDhtSensor.html', {'form': form})
+                    return redirect('/web/modulos')
+                else:
+                    messages.error(request, '*Sensor no perteneciente al hogar')#Si el sensor es de otro hogar muestra mensaje de error
+                    return redirect('/web/addSensor')
 
-@login_required(login_url = '/web/login')
-def newRFIDSensor(request):
-    if request.method == "POST":
-        form = newRFIDSensorForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            member = request.user.userprofile
-            post.codigoHogar = member.codigoHogar
-            post.save()
-            member.rfid.add(post)
-            return redirect('/web/rfidDetail')
-    else:
-        form = newRFIDSensorForm()
-    return render(request, 'web/newRfidSensor.html', {'form': form})
-
-@login_required(login_url = '/web/login')
-def addRFIDSensor(request):
-    form = addSensorForm()
-    if request.method == "POST":
-        form = addSensorForm(request.POST)
-        if form.is_valid():
-            sensor = form.cleaned_data
-            nombre = sensor.get('nombre')
-            if rfid.objects.filter(nombre=nombre).exists():
-                sensor = rfid.objects.get(nombre=nombre)
-                member = request.user.userprofile
-                if sensor.codigoHogar == member.codigoHogar:
-                    member.rfid.add(sensor)
-                return redirect('/web/rfidDetail')
-            else:
-                messages.error(request, '*Sensor RFID no encontrado')
-                return redirect('/web/addRfidSensor')
-    else:
-        form = addSensorForm()
-    return render(request, 'web/addRfidSensor.html', {'form': form})
-
-@login_required(login_url = '/web/login')
-def newMQ2Sensor(request):
-    if request.method == "POST":
-        form = newMQ2SensorForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            member = request.user.userprofile
-            post.codigoHogar = member.codigoHogar
-            post.save()
-            member.mq2.add(post)
-            return redirect('/web/mq2Detail')
-    else:
-        form = newMQ2SensorForm()
-    return render(request, 'web/newMq2Sensor.html', {'form': form})
-
-@login_required(login_url = '/web/login')
-def addMQ2Sensor(request):
-    form = addSensorForm()
-    if request.method == "POST":
-        form = addSensorForm(request.POST)
-        if form.is_valid():
-            sensor = form.cleaned_data
-            nombre = sensor.get('nombre')
-            if mq2.objects.filter(nombre=nombre).exists():
+            elif mq2.objects.filter(nombre=nombre).exists():
                 sensor = mq2.objects.get(nombre=nombre)
-                member = request.user.userprofile
-                if sensor.codigoHogar == member.codigoHogar:
+
+                if sensor.codigoHogar == member.codigoHogar: #Si además ese sensor tiene el mismo códigoHogar que el usuario logueado lo añade a su lista de sensores
                     member.mq2.add(sensor)
-                return redirect('/web/mq2Detail')
-            else:
-                messages.error(request, '*Sensor MQ2 no encontrado')
-                return redirect('/web/addMq2Sensor')
-    else:
-        form = addSensorForm()
-    return render(request, 'web/addMq2Sensor.html', {'form': form})
+                    return redirect('/web/modulos')
+                else:
+                    messages.error(request, '*Sensor no perteneciente al hogar')#Si el sensor es de otro hogar muestra mensaje de error
+                    return redirect('/web/addSensor')
 
-@login_required(login_url = '/web/login')
-def newLDRSensor(request):
-    if request.method == "POST":
-        form = newLDRSensorForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            member = request.user.userprofile
-            post.codigoHogar = member.codigoHogar
-            post.save()
-            member.ldr.add(post)
-            return redirect('/web/ldrDetail')
-    else:
-        form = newLDRSensorForm()
-    return render(request, 'web/newLdrSensor.html', {'form': form})
+            elif rfid.objects.filter(nombre=nombre).exists():
+                sensor = rfid.objects.get(nombre=nombre)
 
-@login_required(login_url = '/web/login')
-def addLDRSensor(request):
-    form = addSensorForm()
-    if request.method == "POST":
-        form = addSensorForm(request.POST)
-        if form.is_valid():
-            sensor = form.cleaned_data
-            nombre = sensor.get('nombre')
-            if ldr.objects.filter(nombre=nombre).exists():
+                if sensor.codigoHogar == member.codigoHogar: #Si además ese sensor tiene el mismo códigoHogar que el usuario logueado lo añade a su lista de sensores
+                    member.rfid.add(sensor)
+                    return redirect('/web/modulos')
+                else:
+                    messages.error(request, '*Sensor no perteneciente al hogar')#Si el sensor es de otro hogar muestra mensaje de error
+                    return redirect('/web/addSensor')
+
+            elif ldr.objects.filter(nombre=nombre).exists():
                 sensor = ldr.objects.get(nombre=nombre)
-                member = request.user.userprofile
-                if sensor.codigoHogar == member.codigoHogar:
+
+                if sensor.codigoHogar == member.codigoHogar: #Si además ese sensor tiene el mismo códigoHogar que el usuario logueado lo añade a su lista de sensores
                     member.ldr.add(sensor)
-                return redirect('/web/ldrDetail')
-            else:
-                messages.error(request, '*Sensor LDR no encontrado')
-                return redirect('/web/addLdrSensor')
-    else:
-        form = addSensorForm()
-    return render(request, 'web/addLdrSensor.html', {'form': form})
+                    return redirect('/web/modulos')
+                else:
+                    messages.error(request, '*Sensor no perteneciente al hogar')#Si el sensor es de otro hogar muestra mensaje de error
+                    return redirect('/web/addSensor')
 
-@login_required(login_url = '/web/login')
-def newDOORSensor(request):
-    if request.method == "POST":
-        form = newDOORSensorForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            member = request.user.userprofile
-            post.codigoHogar = member.codigoHogar
-            post.save()
-            member.puerta.add(post)
-            return redirect('/web/doorDetail')
-    else:
-        form = newDOORSensorForm()
-    return render(request, 'web/newDoorSensor.html', {'form': form})
-
-@login_required(login_url = '/web/login')
-def addDOORSensor(request):
-    form = addSensorForm()
-    if request.method == "POST":
-        form = addSensorForm(request.POST)
-        if form.is_valid():
-            sensor = form.cleaned_data
-            nombre = sensor.get('nombre')
-            if puerta.objects.filter(nombre=nombre).exists():
-                sensor = puerta.objects.get(nombre=nombre)
-                member = request.user.userprofile
-                if sensor.codigoHogar == member.codigoHogar:
-                    member.puerta.add(sensor)
-                return redirect('/web/doorDetail')
-            else:
-                messages.error(request, '*Sensor DOOR no encontrado')
-                return redirect('/web/addDoorSensor')
-    else:
-        form = addSensorForm()
-    return render(request, 'web/addDoorSensor.html', {'form': form})
-
-@login_required(login_url = '/web/login')
-def newLEDSensor(request):
-    if request.method == "POST":
-        form = newLEDSensorForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            member = request.user.userprofile
-            post.codigoHogar = member.codigoHogar
-            post.save()
-            member.led.add(post)
-            return redirect('/web/ledDetail')
-    else:
-        form = newLEDSensorForm()
-    return render(request, 'web/newLedSensor.html', {'form': form})
-
-@login_required(login_url = '/web/login')
-def addLEDSensor(request):
-    form = addSensorForm()
-    if request.method == "POST":
-        form = addSensorForm(request.POST)
-        if form.is_valid():
-            sensor = form.cleaned_data
-            nombre = sensor.get('nombre')
-            if led.objects.filter(nombre=nombre).exists():
+            elif led.objects.filter(nombre=nombre).exists():
                 sensor = led.objects.get(nombre=nombre)
-                member = request.user.userprofile
-                if sensor.codigoHogar == member.codigoHogar:
+
+                if sensor.codigoHogar == member.codigoHogar: #Si además ese sensor tiene el mismo códigoHogar que el usuario logueado lo añade a su lista de sensores
                     member.led.add(sensor)
-                return redirect('/web/ledDetail')
+                    return redirect('/web/modulos')
+                else:
+                    messages.error(request, '*Sensor no perteneciente al hogar')#Si el sensor es de otro hogar muestra mensaje de error
+                    return redirect('/web/addSensor')
+
+            elif puerta.objects.filter(nombre=nombre).exists():
+                sensor = puerta.objects.get(nombre=nombre)
+
+                if sensor.codigoHogar == member.codigoHogar: #Si además ese sensor tiene el mismo códigoHogar que el usuario logueado lo añade a su lista de sensores
+                    member.puerta.add(sensor)
+                    return redirect('/web/modulos')
+                else:
+                    messages.error(request, '*Sensor no perteneciente al hogar')#Si el sensor es de otro hogar muestra mensaje de error
+                    return redirect('/web/addSensor')
+
             else:
-                messages.error(request, '*Sensor LED no encontrado')
-                return redirect('/web/addLedSensor')
+                messages.error(request, '*Sensor no encontrado') #Si no existe muestra mensaje de error
+                return redirect('/web/addSensor')
     else:
         form = addSensorForm()
-    return render(request, 'web/addLedSensor.html', {'form': form})
+
+    return render(request, 'web/addSensor.html', {'form': form})
+
 
 @login_required(login_url = '/web/login')
-def dhtSensor_list(request):
+def Sensor_list(request):
     member = request.user.userprofile
-    lista = member.dht.all()
-    return render(request, 'web/listDHT.html', {'lista':lista})
+    listaDHT = member.dht.all()
+    listaMQ2 = member.mq2.all()
+    listaRFID = member.rfid.all()
+    listaLDR = member.ldr.all()
+    listaLED = member.led.all()
+    listaDOOR = member.puerta.all()
+    return render(request, 'web/sensorList.html', {'listaDHT':listaDHT, 'listaMQ2':listaMQ2, 'listaRFID':listaRFID, 'listaLDR':listaLDR, 'listaLED':listaLED, 'listaDOOR':listaDOOR})
 
 @login_required(login_url = '/web/login')
-def rfidSensor_list(request):
+def edit_sensor(request, sensor_tipo, sensor_id):
     member = request.user.userprofile
-    lista = member.rfid.all()
-    return render(request, 'web/listRFID.html', {'lista':lista})
 
-@login_required(login_url = '/web/login')
-def mq2Sensor_list(request):
+    if sensor_tipo == "dht":
+        post = member.dht.get(pk=sensor_id)
+
+    elif sensor_tipo == "rfid":
+        post = member.rfid.get(pk=sensor_id)
+
+    elif sensor_tipo == "mq2":
+        post = member.mq2.get(pk=sensor_id)
+
+    elif sensor_tipo == "ldr":
+        post = member.ldr.get(pk=sensor_id)
+
+    elif sensor_tipo == "led":
+        post = member.led.get(pk=sensor_id)
+
+    elif sensor_tipo == "puerta":
+        post = member.puerta.get(pk=sensor_id)
+
+    if request.method == "POST":
+        form = editSensorForm(request.POST, instance=post)
+        if form.is_valid():
+            post.nombre = form.cleaned_data['nombre']
+            post.descripcion = form.cleaned_data['descripcion']
+            post.topic = form.cleaned_data['topic']
+            post.save()
+
+        return redirect('/web/listSensor')
+
+    else:
+        form = editSensorForm(instance=post)
+
+    return render(request, 'web/editSensor.html', {'form': form})
+
+def delete_sensor(request, sensor_id, sensor_tipo):
     member = request.user.userprofile
-    lista = member.mq2.all()
-    return render(request, 'web/listMQ2.html', {'lista':lista})
 
-@login_required(login_url = '/web/login')
-def doorSensor_list(request):
-    member = request.user.userprofile
-    lista = member.puerta.all()
-    return render(request, 'web/listDOOR.html', {'lista':lista})
-
-@login_required(login_url = '/web/login')
-def ldrSensor_list(request):
-    member = request.user.userprofile
-    lista = member.ldr.all()
-    return render(request, 'web/listLDR.html', {'lista':lista})
-
-@login_required(login_url = '/web/login')
-def ledSensor_list(request):
-    member = request.user.userprofile
-    lista = member.led.all()
-    return render(request, 'web/listLED.html', {'lista':lista})
-
-@login_required(login_url = '/web/login')
-def dht_edit(request, dht_id):
-        post = get_object_or_404(dht, pk=dht_id)
-        if request.method == "POST":
-            form = newDHTSensorForm(request.POST, instance=post)
-            if form.is_valid():
-                post = form.save()
-                request.user.userprofile.dht.add(post)
-                return redirect('/web/listDHT')
-        else:
-            form = newDHTSensorForm(instance=post)
-        return render(request, 'web/dht_edit.html', {'form': form})
-
-@login_required(login_url = '/web/login')
-def mq2_edit(request, mq2_id):
-        post = get_object_or_404(mq2, pk=mq2_id)
-        if request.method == "POST":
-            form = newMQ2SensorForm(request.POST, instance=post)
-            if form.is_valid():
-                post = form.save()
-                request.user.userprofile.mq2.add(post)
-                return redirect('/web/listMQ2')
-        else:
-            form = newMQ2SensorForm(instance=post)
-        return render(request, 'web/mq2_edit.html', {'form': form})
-
-@login_required(login_url = '/web/login')
-def rfid_edit(request, rfid_id):
-        post = get_object_or_404(rfid, pk=rfid_id)
-        if request.method == "POST":
-            form = newRFIDSensorForm(request.POST, instance=post)
-            if form.is_valid():
-                post = form.save()
-                request.user.userprofile.rfid.add(post)
-                return redirect('/web/listRFID')
-        else:
-            form = newRFIDSensorForm(instance=post)
-        return render(request, 'web/rfid_edit.html', {'form': form})
-
-@login_required(login_url = '/web/login')
-def door_edit(request, puerta_id):
-        post = get_object_or_404(puerta, pk=puerta_id)
-        if request.method == "POST":
-            form = newDOORSensorForm(request.POST, instance=post)
-            if form.is_valid():
-                post = form.save()
-                request.user.userprofile.puerta.add(post)
-                return redirect('/web/listDOOR')
-        else:
-            form = newDOORSensorForm(instance=post)
-        return render(request, 'web/door_edit.html', {'form': form})
-
-@login_required(login_url = '/web/login')
-def led_edit(request, led_id):
-        post = get_object_or_404(led, pk=led_id)
-        if request.method == "POST":
-            form = newLEDSensorForm(request.POST, instance=post)
-            if form.is_valid():
-                post = form.save()
-                request.user.userprofile.led.add(post)
-                return redirect('/web/listLED')
-        else:
-            form = newLEDSensorForm(instance=post)
-        return render(request, 'web/led_edit.html', {'form': form})
-
-@login_required(login_url = '/web/login')
-def ldr_edit(request, ldr_id):
-        post = get_object_or_404(ldr, pk=ldr_id)
-        if request.method == "POST":
-            form = newLDRSensorForm(request.POST, instance=post)
-            if form.is_valid():
-                post = form.save()
-                request.user.userprofile.ldr.add(post)
-                return redirect('/web/listLDR')
-        else:
-            form = newLDRSensorForm(instance=post)
-        return render(request, 'web/ldr_edit.html', {'form': form})
-
-@login_required(login_url = '/web/login')
-def dht_delete(request, dht_id):
-    post = get_object_or_404(dht, pk=dht_id)
     if request.method == "POST":
-        post.delete()
-        return redirect('/web/listDHT')
-    return render(request, 'web/dht_delete.html')
+        if sensor_tipo == "dht":
+            post = member.dht.get(pk=sensor_id)
+            post.delete()
+        elif sensor_tipo == "rfid":
+            post = member.rfid.get(pk=sensor_id)
+            post.delete()
+        elif sensor_tipo == "mq2":
+            post = member.mq2.get(pk=sensor_id)
+            post.delete()
+        elif sensor_tipo == "ldr":
+            post = member.ldr.get(pk=sensor_id)
+            post.delete()
+        elif sensor_tipo == "led":
+            post = member.led.get(pk=sensor_id)
+            post.delete()
+        elif sensor_tipo == "puerta":
+            post = member.puerta.get(pk=sensor_id)
+            post.delete()
 
-@login_required(login_url = '/web/login')
-def mq2_delete(request, mq2_id):
-    post = get_object_or_404(mq2, pk=mq2_id)
-    if request.method == "POST":
-        post.delete()
-        return redirect('/web/listMQ2')
-    return render(request, 'web/mq2_delete.html')
+        return redirect('/web/listSensor')
 
-@login_required(login_url = '/web/login')
-def rfid_delete(request, rfid_id):
-    post = get_object_or_404(rfid, pk=rfid_id)
-    if request.method == "POST":
-        post.delete()
-        return redirect('/web/listRFID')
-    return render(request, 'web/rfid_delete.html')
-
-@login_required(login_url = '/web/login')
-def door_delete(request, door_id):
-    post = get_object_or_404(puerta, pk=door_id)
-    if request.method == "POST":
-        post.delete()
-        return redirect('/web/listDOOR')
-    return render(request, 'web/door_delete.html')
-
-@login_required(login_url = '/web/login')
-def ldr_delete(request, ldr_id):
-    post = get_object_or_404(ldr, pk=ldr_id)
-    if request.method == "POST":
-        post.delete()
-        return redirect('/web/listLDR')
-    return render(request, 'web/ldr_delete.html')
-
-@login_required(login_url = '/web/login')
-def led_delete(request, led_id):
-    post = get_object_or_404(led, pk=led_id)
-    if request.method == "POST":
-        post.delete()
-        return redirect('/web/listLED')
-    return render(request, 'web/led_delete.html')
+    return render(request, 'web/delete_sensor.html')
