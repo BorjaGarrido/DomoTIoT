@@ -1,0 +1,30 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+<div class="cajaRegistro">
+
+<form method="post">
+  {% csrf_token  %}
+    <h2>{{ form.username.errors.as_text }}</h2>
+    <p><label for="id_username">Nombre de usuario:</label> <input class="barraForm" type="text" name="username" maxlength="150" autofocus="" required="" id="id_username"> <span class="helptext"></span></p><ul><li>Requerido. 150 carácteres como máximo. Únicamente letras, dígitos y @/./+/-/_</li><li>IMPORTANTE: El nombre de usuario no se podrá modificar.</li></ul><p></p>
+    <p><label for="id_first_name">Nombre:</label> <input class="barraForm"  type="text" name="first_name" maxlength="30" id="id_first_name"></p>
+    <p><label for="id_last_name">Apellido:</label> <input class="barraForm"  type="text" name="last_name" maxlength="150" id="id_last_name"></p>
+    <h2>{{ form.email.errors.as_text }}</h2>
+    <p><label for="id_email">Correo electronico:</label> <input class="barraForm"  type="email" name="email" maxlength="254" id="id_email"></p>
+    <h2>{{ form.uid.errors.as_text }}</h2>
+    <p><label for="id_uid">Identificador UID:</label> <input class="barraForm"  type="text" name="uid" maxlength="250" required="" id="id_uid"></p>
+    <h2>{{ form.codigoHogar.errors.as_text }}</h2>
+    <p><label for="id_uid">Código del hogar:</label> <input class="barraForm"  type="text" name="codigoHogar" maxlength="250" required="" id="id_codigoHogar"><span class="helptext"></span></p><ul><li>El código del hogar es único e inmodificable.</li></ul><p></p>
+    <h2>{{ form.password1.errors.as_text }}</h2>
+    <p><label for="id_password1">Contraseña:</label> <input class="barraForm"  type="password" name="password1" required="" id="id_password1"> <span class="helptext"></span></p><ul><li>Su contraseña no puede asemejarse tanto a su otra información personal.</li><li>Su contraseña debe contener al menos 8 caracteres.</li><li>Su contraseña no puede ser una clave utilizada comunmente.</li><li>Su contraseña no puede ser completamente numérica.</li></ul><p></p>
+    <h2>{{ form.password2.errors.as_text }}</h2>
+    <p><label for="id_password2">Contraseña (confirmación):</label> <input class="barraForm"  type="password" name="password2" required="" id="id_password2"> <span class="helptext"></span></p><ul><li>Para verificar, introduzca la misma contraseña anterior.</li></ul><p></p>
+    <div class="cajaBotonRegistro">
+          <button class="botonRegistro" type="submit">Guardar</button>
+      </div>
+      <p>{{ form.fieldname.errors.as_text }}</p>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Inicia Sesión{% endblock %}
+
+{% block content %}
+
+  <form method="POST" class="cajaLogin">
+    {% if form.errors %}
+      <h2>Nombre de usuario o contraseña no válidos</h2><br>
+    {% endif %}
+      {% csrf_token %}
+        <p ><label for="id_username">Nombre de usuario:</label> <input class="barraForm" type="text" name="username" autofocus="" required="" id="id_username"></p>
+        <p ><label for="id_password">Contraseña:</label> <input class="barraForm" type="password" name="password" required="" id="id_password"></p>
+      <div class="cajaBotonRegistro">
+          <button class="botonRegistro" type="submit">Enviar</button>
+      </div>
+  </form>
+
+{% endblock content %}

@@ -30,6 +30,7 @@ class newSensorForm(forms.ModelForm):
         model = Modulo
         fields = ('nombre',
                 'descripcion',
+                'habitacion',
                 'topic',
                 'tipo',)
 
@@ -38,48 +39,7 @@ class editSensorForm(forms.ModelForm):
         model = Modulo
         fields = ('nombre',
                 'descripcion',
-                'topic',)
-
-class newDHTSensorForm(forms.ModelForm):
-    class Meta:
-        model = dht
-        fields = ('nombre',
-                'descripcion',
-                'topic',)
-
-class newRFIDSensorForm(forms.ModelForm):
-    class Meta:
-        model = rfid
-        fields = ('nombre',
-                'descripcion',
-                'topic',)
-
-class newMQ2SensorForm(forms.ModelForm):
-    class Meta:
-        model = mq2
-        fields = ('nombre',
-                'descripcion',
-                'topic',)
-
-class newLDRSensorForm(forms.ModelForm):
-    class Meta:
-        model = ldr
-        fields = ('nombre',
-                'descripcion',
-                'topic',)
-
-class newDOORSensorForm(forms.ModelForm):
-    class Meta:
-        model = puerta
-        fields = ('nombre',
-                'descripcion',
-                'topic',)
-
-class newLEDSensorForm(forms.ModelForm):
-    class Meta:
-        model = led
-        fields = ('nombre',
-                'descripcion',
+                'habitacion',
                 'topic',)
 
 class editUserForm(UserChangeForm):

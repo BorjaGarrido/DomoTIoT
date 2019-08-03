@@ -1,0 +1,95 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Editar sensor{% endblock %}
+
+{% block content %}
+<div class="cajaSensorDetail" style="text-align:center">
+    <table class="table table-striped">
+        <tr>
+          <th style="text-align:center">Nombre</th>
+          <th style="text-align:center">Topic</th>
+          <th style="text-align:center">Tipo</th>
+          <th style="text-align:center"></th>
+          <th style="text-align:center"></th>
+        </tr>
+        {% for dht in listaDHT %}
+        <tr>
+          <td>{{ dht.nombre }}</td>
+          <td>{{ dht.topic }}</td>
+          <td>{{ dht.tipo }}</td>
+          <td><a href="{% url 'edit_sensor' sensor_tipo=dht.tipo sensor_id=dht.id %}"><button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button></a></td>
+          <td><a href="{% url 'delete_sensor' sensor_tipo=dht.tipo sensor_id=dht.id %}"><button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button></a></td>
+        </tr>
+        {% endfor %}
+        {% for mq2 in listaMQ2 %}
+        <tr>
+          <td>{{ mq2.nombre }}</td>
+          <td>{{ mq2.topic }}</td>
+          <td>{{ mq2.tipo }}</td>
+          <td><a href="{% url 'edit_sensor' sensor_tipo=mq2.tipo sensor_id=mq2.id %}"><button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button></a></td>
+          <td><a href="{% url 'delete_sensor' sensor_tipo=mq2.tipo sensor_id=mq2.id %}"><button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button></a></td>
+        </tr>
+        {% endfor %}
+        {% for ldr in listaLDR  %}
+        <tr>
+          <td>{{ ldr.nombre }}</td>
+          <td>{{ ldr.topic }}</td>
+          <td>{{ ldr.tipo }}</td>
+          <td><a href="{% url 'edit_sensor' sensor_tipo=ldr.tipo sensor_id=ldr.id %}"><button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button></a></td>
+          <td><a href="{% url 'delete_sensor' sensor_tipo=ldr.tipo sensor_id=ldr.id %}"><button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button></a></td>
+        </tr>
+        {% endfor %}
+        {% for door in listaDOOR %}
+        <tr>
+          <td>{{ door.nombre }}</td>
+          <td>{{ door.topic }}</td>
+          <td>{{ door.tipo }}</td>
+          <td><a href="{% url 'edit_sensor' sensor_tipo=door.tipo sensor_id=door.id %}"><button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button></a></td>
+          <td><a href="{% url 'delete_sensor' sensor_tipo=door.tipo sensor_id=door.id %}"><button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button></a></td>
+        </tr>
+        {% endfor %}
+        {% for led in listaLED %}
+        <tr>
+          <td>{{ led.nombre }}</td>
+          <td>{{ led.topic }}</td>
+          <td>{{ led.tipo }}</td>
+          <td><a href="{% url 'edit_sensor' sensor_tipo=led.tipo sensor_id=led.id %}"><button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button></a></td>
+          <td><a href="{% url 'delete_sensor' sensor_tipo=led.tipo sensor_id=led.id %}"><button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button></a></td>
+        </tr>
+        {% endfor %}
+        {% for rfid in listaRFID %}
+        <tr>
+          <td>{{ rfid.nombre }}</td>
+          <td>{{ rfid.topic }}</td>
+          <td>{{ rfid.tipo }}</td>
+          <td><a href="{% url 'edit_sensor' sensor_tipo=rfid.tipo sensor_id=rfid.id %}"><button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button></a></td>
+          <td><a href="{% url 'delete_sensor' sensor_tipo=rfid.tipo sensor_id=rfid.id %}"><button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button></a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

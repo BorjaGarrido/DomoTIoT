@@ -4,5 +4,27 @@
 
 {% block content %}
 
+{% for dht in listaDHT %}
+<div class="cajaSensor">
+    <h1><a href="">{{ dht.nombre }}</a></h1>
+    <h2>Topic: {{ dht.topic }}</h2>
+    <h2>Habitación: {{ dht.habitacion }}</h2>
+    <br>
+    <p>Temperatura actual: {{ dht.temperatura }}ºC</p>
+    <p>Humedad actual: {{ dht.humedad }}%</p>
+    <br>
+    <p>Temperatura máxima: {{ dht.temperaturaMax }}ºC. Recogida el
+      {{ dht.fechaTMax }} a las {{ dht.horaTMax }}</p>
+    <p>Humedad máxima: {{ dht.humedadMax }}%. Recogida el
+      {{ dht.fechaTMax }} a las {{ dht.horaHMax }}</p>
+    <br>
+    <p>Temperatura mínima: {{ dht.temperaturaMin }}ºC. Recogida el
+      {{ dht.fechaTMin}} a las {{ dht.horaTMin }}</p>
+    <p>Humedad mínima: {{ dht.humedadMin }}%. Recogida el
+      {{ dht.fechaHMin }} a las {{ dht.horaHMin }}</p>
+    <br>
+    <p><img src="https://www.rototron.info/wp-content/uploads/DHT22_01.png" height="120"></p>
+</div>
+{% endfor %}
 
 {% endblock %}

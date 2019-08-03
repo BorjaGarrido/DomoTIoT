@@ -1,0 +1,16 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Detalle DHT{% endblock %}
+
+{% block content %}
+
+{% for dht in listaDHT %}
+<div class="cajaRegistro">
+  <h1><a href="{% url 'dht_mqtt' sensor_id=dht.id %}">{{ dht.nombre }}</a></h1>
+  <h2>Topic: {{ dht.topic }}</h2>
+  <p>Temperatura: {{ dht.temperatura }}ºC</p>
+  <p>Humedad: {{ dht.humedad }}%</p>
+</div>
+{% endfor %}
+
+{% endblock %}

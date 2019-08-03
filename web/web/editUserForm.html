@@ -1,0 +1,27 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Editar datos del usuario{% endblock %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="cajaRegistro">
+
+  <form method="post">
+  {% csrf_token  %}
+    <p><b>Nombre:</b></p>
+    <p>{{ form.first_name|add_class:"barraForm" }}</p>
+    <p><b>Apellido:</b></p>
+    <p>{{ form.last_name|add_class:"barraForm" }}</p>
+    <p><b>Correo electronico:</b></p>
+    <p >{{ form.email|add_class:"barraForm" }}</p>
+    <p><b>Identificador UID:</b></p>
+    <p>{{ form.uid|add_class:"barraForm" }}</p>
+
+    <div class="cajaBotonRegistro">
+        <button class="botonRegistro" type="submit">Guardar</button>
+    </div>
+  </form>
+
+</div>
+{% endblock %}

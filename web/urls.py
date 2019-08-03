@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^web/(?P<sensor_tipo>\w+)/(?P<sensor_id>[0-9]+)/ed/$', views.edit_sensor, name='edit_sensor'),
     url(r'^web/(?P<sensor_tipo>\w+)/(?P<sensor_id>[0-9]+)/delete/$',views.delete_sensor, name='delete_sensor'),
     path('web/addSensor/', views.addSensor, name='add_Sensor'),
+    #url(r'^web/(?P<sensor_id>[0-9]+)/dht/mqtt/$',views.dht_mqtt, name='dht_mqtt'),
 ]

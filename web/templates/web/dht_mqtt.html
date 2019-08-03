@@ -1,0 +1,16 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Detalle DHT MQTT{% endblock %}
+
+{% block content %}
+
+{% for dht in listaDHT %}
+<div class="cajaRegistro">
+
+    <p>{{ sensor.temperatura }}ºC</p>
+    <p>{{ sensor.humedad }}%</p>
+
+</div>
+{% endfor %}
+
+{% endblock %}

@@ -1,4 +1,9 @@
-#Librerías, formularios y modelos usuados en las funciones del archivo views.py
+##################################IMPORTS####################################
+"""
+Librerías, funciones y modelos importados para el desarrollo de la aplicación
+web
+"""
+#############################################################################
 
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.utils import timezone
@@ -17,11 +22,17 @@ from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.conf import settings
-from django.db.models import Q
 from django.shortcuts import redirect
-import datetime
+from datetime import datetime
+from django.utils import timezone
 import smtplib
+import paho.mqtt.subscribe as subscribe
 
+##################################FUNCIONES####################################
+"""
+Funciones propias implementadas en el desarrollo de la aplicación web
+"""
+##############################################################################
 """
     Nombre: modulo_list.
     Función: vista que solicita el html con los elementos divs a
@@ -77,8 +88,51 @@ def inicio(request):
 """
 @login_required(login_url = '/web/login')
 def dhtDetail(request):
+    member = request.user.userprofile
+    listaDHT = member.dht.all()
 
-    return render(request, 'web/dhtDetail.html')
+    for sensor in listaDHT:
+
+        topic = sensor.topic
+
+        m = subscribe.simple(topic, hostname="192.168.1.143", retained=False)
+
+        men = str(m.payload)
+        men = men.replace("'", "")
+        men = men.replace("b", "")
+        men = men.replace("Hum", "")
+        men = men.replace("Temp", "")
+        men = men.split(" ")
+
+        sensor.temperatura = float(men[3])
+        sensor.humedad = float(men[1])
+
+        if sensor.temperatura > sensor.temperaturaMax:
+            sensor.temperaturaMax = sensor.temperatura
+            sensor.fechaTMax = datetime.now()
+            sensor.horaTMax = datetime.now()
+
+        if sensor.humedad > sensor.humedadMax:
+            sensor.humedadMax = sensor.humedad
+            sensor.fechaHMax = datetime.now()
+            sensor.horaHMax = datetime.now()
+
+        if sensor.temperatura < sensor.temperaturaMin:
+            sensor.temperaturaMin = sensor.temperatura
+            sensor.fechaTMin = datetime.now()
+            sensor.horaTMin = datetime.now()
+
+        if sensor.humedad < sensor.humedadMin:
+            sensor.humedadMin = sensor.humedad
+            sensor.fechaHMin = datetime.now()
+            sensor.horaHMin = datetime.now()
+
+        sensor.save()
+        member.dht.add(sensor)
+
+    listaDHT = member.dht.all()
+
+    return render(request, 'web/dhtDetail.html', {'listaDHT':listaDHT})
 
 """
     Nombre: dhtDetail.
@@ -87,6 +141,7 @@ def dhtDetail(request):
 
              *Consultar rfidDetail.html
 """
+
 @login_required(login_url = '/web/login')
 def rfidDetail(request):
 
@@ -315,6 +370,7 @@ def newSensor(request):
             #   y se rellana con los datos obtenidos del formulario
             module.nombre = form.cleaned_data['nombre']
             module.descripcion = form.cleaned_data['descripcion']
+            module.habitacion = form.cleaned_data['habitacion']
             module.topic = form.cleaned_data['topic']
             module.tipo = form.cleaned_data['tipo']
             #Se introduce el codigoHogar propio del usuario logueado
@@ -326,9 +382,16 @@ def newSensor(request):
                 dht_LOCAL = dht()
                 dht_LOCAL.nombre = module.nombre
                 dht_LOCAL.descripcion = module.descripcion
+                dht_LOCAL.habitacion = module.habitacion
                 dht_LOCAL.topic = module.topic
                 dht_LOCAL.tipo = module.tipo
                 dht_LOCAL.codigoHogar = module.codigoHogar
+                dht_LOCAL.temperatura = 0
+                dht_LOCAL.humedad = 0
+                dht_LOCAL.temperaturaMax = 0
+                dht_LOCAL.humedadMax = 0
+                dht_LOCAL.temperaturaMin = 100
+                dht_LOCAL.humedadMin = 100
                 dht_LOCAL.save()
                 member.dht.add(dht_LOCAL)
 
@@ -336,6 +399,7 @@ def newSensor(request):
                 rfid_LOCAL= rfid()
                 rfid_LOCAL.nombre= module.nombre
                 rfid_LOCAL.descripcion= module.descripcion
+                rfid_LOCAL.habitacion = module.habitacion
                 rfid_LOCAL.topic= module.topic
                 rfid_LOCAL.tipo= module.tipo
                 rfid_LOCAL.codigoHogar = module.codigoHogar
@@ -346,6 +410,7 @@ def newSensor(request):
                 mq2_LOCAL= mq2()
                 mq2_LOCAL.nombre= module.nombre
                 mq2_LOCAL.descripcion= module.descripcion
+                mq2_LOCAL.habitacion = module.habitacion
                 mq2_LOCAL.topic= module.topic
                 mq2_LOCAL.tipo= module.tipo
                 mq2_LOCAL.codigoHogar = module.codigoHogar
@@ -356,6 +421,7 @@ def newSensor(request):
                 ldr_LOCAL= ldr()
                 ldr_LOCAL.nombre= module.nombre
                 ldr_LOCAL.descripcion= module.descripcion
+                ldr_LOCAL.habitacion = module.habitacion
                 ldr_LOCAL.topic= module.topic
                 ldr_LOCAL.tipo= module.tipo
                 ldr_LOCAL.codigoHogar = module.codigoHogar
@@ -366,6 +432,7 @@ def newSensor(request):
                 led_LOCAL= led()
                 led_LOCAL.nombre= module.nombre
                 led_LOCAL.descripcion= module.descripcion
+                led_LOCAL.habitacion = module.habitacion
                 led_LOCAL.topic= module.topic
                 led_LOCAL.tipo= module.tipo
                 led_LOCAL.codigoHogar = module.codigoHogar
@@ -376,6 +443,7 @@ def newSensor(request):
                 puerta_LOCAL= puerta()
                 puerta_LOCAL.nombre= module.nombre
                 puerta_LOCAL.descripcion= module.descripcion
+                puerta_LOCAL.habitacion = module.habitacion
                 puerta_LOCAL.topic= module.topic
                 puerta_LOCAL.tipo= module.tipo
                 puerta_LOCAL.codigoHogar = module.codigoHogar
@@ -595,3 +663,28 @@ def delete_sensor(request, sensor_id, sensor_tipo):
         return redirect('/web/listSensor')
 
     return render(request, 'web/delete_sensor.html')
+"""
+def dht_mqtt(request, sensor_id):
+
+    member = request.user.userprofile
+    sensor = member.dht.get(pk=sensor_id)
+
+    topic = sensor.topic
+
+    m = subscribe.simple(topic, hostname="192.168.1.143", retained=False)
+
+    men = str(m.payload)
+    men = men.replace("'", "")
+    men = men.replace("b", "")
+    men = men.replace("Hum", "")
+    men = men.replace("Temp", "")
+    men = men.split(" ")
+
+    sensor.temperatura = float(men[3])
+    sensor.humedad = float(men[1])
+
+    sensor.save()
+    member.dht.add(sensor)
+
+    return render(request, 'web/dhtDetail.html', {'sensor':sensor})
+"""
