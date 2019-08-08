@@ -72,6 +72,7 @@ class UserProfile(User):
     ldr = models.ManyToManyField(ldr, blank=True)
     puerta = models.ManyToManyField(puerta, blank=True)
     led = models.ManyToManyField(led, blank=True)
+    conectado = models.BooleanField(default=False, null=False);
 
     def __unicode__(self):
     	return self.user.username

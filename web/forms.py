@@ -23,7 +23,7 @@ class registroForm(UserCreationForm):
                     'password1': 'Contraseña',
                     'password2':'Contraseña (confirmación)',}
         exclude = ['groups', 'user_permissions', 'is_staff', 'is_active', 'is_superuser', 'last_login', 'date_joined' ,'password',
-        'dht', 'rfid', 'mq2', 'ldr', 'puerta', 'led']
+        'dht', 'rfid', 'mq2', 'ldr', 'puerta', 'led', 'conectado']
 
 class newSensorForm(forms.ModelForm):
     class Meta:

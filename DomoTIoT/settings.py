@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'widget_tweaks',
     'django.contrib.staticfiles',
+    'background_task',
     'web',
 ]
 
@@ -126,3 +127,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGIN_REDIRECT_URL = '/web/modulos'
 LOGOUT_REDIRECT_URL = '/'
+
+BACKGROUND_TASK_RUN_ASYNC=True

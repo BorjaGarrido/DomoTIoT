@@ -455,6 +455,25 @@ body {
     width: 100%;
 }
 
+.cajaEmpty {
+  width:40%;
+  height:100%;
+  font-size: 18pt;
+  font-weight: 400;
+  text-align: justify;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  margin-bottom: auto;
+  text-align: center;
+  overflow: hidden;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  font-family: 'Sunflower', sans-serif;
+}
+
 .boton{
     text-decoration: none;
     padding: 10px;

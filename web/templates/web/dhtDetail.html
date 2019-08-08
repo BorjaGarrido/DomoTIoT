@@ -9,6 +9,7 @@
     <h1><a href="">{{ dht.nombre }}</a></h1>
     <h2>Topic: {{ dht.topic }}</h2>
     <h2>Habitación: {{ dht.habitacion }}</h2>
+    <h2> {{ number }}</h2>
     <br>
     <p>Temperatura actual: {{ dht.temperatura }}ºC</p>
     <p>Humedad actual: {{ dht.humedad }}%</p>
@@ -23,7 +24,11 @@
     <p>Humedad mínima: {{ dht.humedadMin }}%. Recogida el
       {{ dht.fechaHMin }} a las {{ dht.horaHMin }}</p>
     <br>
-    <p><img src="https://www.rototron.info/wp-content/uploads/DHT22_01.png" height="120"></p>
+    <p><img src="http://tng.earth/img/parts/dht22.png" height="150"></p>
+</div>
+{% empty %}
+<div class="cajaEmpty">
+<h1>No hay ningún sensor de humedad y temperatura registrado</h1>
 </div>
 {% endfor %}
 

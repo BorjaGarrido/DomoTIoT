@@ -12,3 +12,4 @@ admin.site.register(mq2)
 admin.site.register(ldr)
 admin.site.register(puerta)
 admin.site.register(led)
+

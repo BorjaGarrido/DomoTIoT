@@ -25,14 +25,17 @@ from django.conf import settings
 from django.shortcuts import redirect
 from datetime import datetime
 from django.utils import timezone
+from .tasks import *
 import smtplib
 import paho.mqtt.subscribe as subscribe
+from background_task import background
 
 ##################################FUNCIONES####################################
 """
 Funciones propias implementadas en el desarrollo de la aplicación web
 """
 ##############################################################################
+
 """
     Nombre: modulo_list.
     Función: vista que solicita el html con los elementos divs a
@@ -43,6 +46,7 @@ Funciones propias implementadas en el desarrollo de la aplicación web
 """
 @login_required(login_url = '/web/login')
 def modulo_list(request):
+    member = request.user.userprofile
 
     return render(request, 'web/modulo_list.html')
 
@@ -88,50 +92,12 @@ def inicio(request):
 """
 @login_required(login_url = '/web/login')
 def dhtDetail(request):
+    
     member = request.user.userprofile
     listaDHT = member.dht.all()
-
-    for sensor in listaDHT:
-
-        topic = sensor.topic
-
-        m = subscribe.simple(topic, hostname="192.168.1.143", retained=False)
-
-        men = str(m.payload)
-        men = men.replace("'", "")
-        men = men.replace("b", "")
-        men = men.replace("Hum", "")
-        men = men.replace("Temp", "")
-        men = men.split(" ")
-
-        sensor.temperatura = float(men[3])
-        sensor.humedad = float(men[1])
-
-        if sensor.temperatura > sensor.temperaturaMax:
-            sensor.temperaturaMax = sensor.temperatura
-            sensor.fechaTMax = datetime.now()
-            sensor.horaTMax = datetime.now()
-
-        if sensor.humedad > sensor.humedadMax:
-            sensor.humedadMax = sensor.humedad
-            sensor.fechaHMax = datetime.now()
-            sensor.horaHMax = datetime.now()
-
-        if sensor.temperatura < sensor.temperaturaMin:
-            sensor.temperaturaMin = sensor.temperatura
-            sensor.fechaTMin = datetime.now()
-            sensor.horaTMin = datetime.now()
-
-        if sensor.humedad < sensor.humedadMin:
-            sensor.humedadMin = sensor.humedad
-            sensor.fechaHMin = datetime.now()
-            sensor.horaHMin = datetime.now()
-
-        sensor.save()
-        member.dht.add(sensor)
-
-    listaDHT = member.dht.all()
-
+    
+    #dhtData.delay()
+        
     return render(request, 'web/dhtDetail.html', {'listaDHT':listaDHT})
 
 """
@@ -217,6 +183,7 @@ def registroUsuario(request):
             form.save()
             #Si el formulario es válido se guarda el usuario y se redirige
             #   a la página principal mediante el "REDIRECT"
+            
             return redirect(settings.LOGOUT_REDIRECT_URL)
 
     else:
@@ -324,6 +291,12 @@ def SignInView(request):
                 if access.is_active:
                     login(request, access)
                     #Se completa el logueo y se redirige a la página principal
+                    
+                    member = request.user.userprofile
+                    
+                    member.conectado = True
+                    member.save()
+                    
                     return redirect('/')
                 else:
                     #Si el usuario está inactivo, se muestra
@@ -344,6 +317,12 @@ def SignInView(request):
 """
 @login_required(login_url='/web/login/')
 def SignOutView(request):
+    
+    member = request.user.userprofile
+    
+    member.conectado = False
+    member.save()
+    
     logout(request)
     return redirect('/')
 
@@ -663,28 +642,6 @@ def delete_sensor(request, sensor_id, sensor_tipo):
         return redirect('/web/listSensor')
 
     return render(request, 'web/delete_sensor.html')
-"""
-def dht_mqtt(request, sensor_id):
 
-    member = request.user.userprofile
-    sensor = member.dht.get(pk=sensor_id)
 
-    topic = sensor.topic
 
-    m = subscribe.simple(topic, hostname="192.168.1.143", retained=False)
-
-    men = str(m.payload)
-    men = men.replace("'", "")
-    men = men.replace("b", "")
-    men = men.replace("Hum", "")
-    men = men.replace("Temp", "")
-    men = men.split(" ")
-
-    sensor.temperatura = float(men[3])
-    sensor.humedad = float(men[1])
-
-    sensor.save()
-    member.dht.add(sensor)
-
-    return render(request, 'web/dhtDetail.html', {'sensor':sensor})
-"""
