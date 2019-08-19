@@ -1,0 +1,35 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Incidencias MQ2{% endblock %}
+
+{% block content %}
+<div class="cajaB" style="text-align:center">
+    <table class="table table-striped">
+        <tr>
+		  <th style="text-align:center">Fecha</th>
+          <th style="text-align:center">Hora</th>
+          <th style="text-align:center">LPG</th>
+          <th style="text-align:center">CO2</th>
+          <th style="text-align:center">Humo</th>
+        </tr>
+        
+        {% for registro in incidencias %}
+        <tr>
+          <td>{{ registro.fecha }}</td>
+          <td>{{ registro.hora }}</td>
+          <td>{{ registro.lpg }}</td>
+          <td>{{ registro.co2 }}</td>
+          <td>{{ registro.smoke }}</td>
+	</tr>
+        {% endfor %}
+       
+    </table>
+    {% if incidencias %}
+      <p>
+      <a href="{% url 'borrar_incidencia_mq2' sensor_id=mq2.id %}"><button class="botonRegistro" type="submit">Eliminar incidencias</button></a>
+      </p>
+    {% endif %}
+</div>
+{% endblock %}
+
+

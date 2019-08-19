@@ -4,6 +4,30 @@
 
 {% block content %}
 
-
+{% for door in listaPuerta %}
+<div class="cajaSensor">
+    <h1><a href="">{{ door.nombre }}</a></h1>
+    <h2>Topic: {{ door.topic }}</h2>
+    <h2>Habitación: {{ door.habitacion }}</h2>
+    
+   <h2><script class="cajaSensor">
+	if ("{{door.estado}}"=="True") {
+	  var estado = "Abierta";
+	}else{
+	  var estado = "Cerrada";
+	} 
+	document.write("Estado: "+estado);
+    </script></h2> 
+    
+    <br>
+    <p><a href="{% url 'open_door' sensor_id=door.id %}"><img src="https://i.pinimg.com/originals/bf/27/97/bf2797f684ed6b30b83bddfebeb3c634.png" height="150"></a>
+    <a href="{% url 'close_door' sensor_id=door.id %}"><img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/47d382cf-6dc7-4e1d-a02b-6e5aa6172908/d4wy1cv-cab0baf9-d9ef-4a57-835a-6c285175ff05.png/v1/fill/w_681,h_1174,strp/closed_door_png_by_viktoria_lyn_d4wy1cv-pre.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTU1MSIsInBhdGgiOiJcL2ZcLzQ3ZDM4MmNmLTZkYzctNGUxZC1hMDJiLTZlNWFhNjE3MjkwOFwvZDR3eTFjdi1jYWIwYmFmOS1kOWVmLTRhNTctODM1YS02YzI4NTE3NWZmMDUucG5nIiwid2lkdGgiOiI8PTkwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.jR9zlicNSMdlEQnYUvj-_ewV9XLKRd05dYk4RQA3rqs" 
+	height="150"></p></a>
+</div>
+{% empty %}
+<div class="cajaEmpty">
+<h1>No hay ningún sensor para puerta registrado</h1>
+</div>
+{% endfor %}
 
 {% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Registros MQ2{% endblock %}
+
+{% block content %}
+<div class="cajaRegistroDetail" style="text-align:center">
+    <table class="table table-striped">
+        <tr>
+		  <th style="text-align:center">Fecha</th>
+          <th style="text-align:center">LPG Máximo</th>
+          <th style="text-align:center">Hora</th>
+          <th style="text-align:center">CO2 Máximo</th>
+          <th style="text-align:center">Hora</th>
+          <th style="text-align:center">Humo máximo</th>
+          <th style="text-align:center">Hora</th>
+        </tr>
+        
+        {% for registro in registros %}
+        <tr>
+          <td>{{ registro.fecha }}</td>
+          <td>{{ registro.lpgMax }}</td>
+          <td>{{ registro.horaLPGMax }}</td>
+          <td>{{ registro.co2Max }}</td>
+          <td>{{ registro.horaCO2Max }}</td>
+          <td>{{ registro.smokeMax }}</td>
+          <td>{{ registro.horaSMOKEMax }}</td>
+	</tr>
+        {% endfor %}
+       
+    </table>
+    {% if registros %}
+      <p>
+      <a href="{% url 'borrar_registro_mq2' sensor_id=mq2.id %}"><button class="botonRegistro" type="submit">Eliminar registros</button></a>
+      </p>
+    {% endif %}
+</div>
+{% endblock %}
+

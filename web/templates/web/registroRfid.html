@@ -1,0 +1,30 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Registros RFID{% endblock %}
+
+{% block content %}
+<div class="cajaB" style="text-align:center">
+    <table class="table table-striped">
+        <tr>
+		  <th style="text-align:center">Fecha</th>
+          <th style="text-align:center">Hora</th>
+          <th style="text-align:center">Uid Tag</th>
+        </tr>
+        
+        {% for registro in registros %}
+        <tr>
+          <td>{{ registro.fecha }}</td>
+          <td>{{ registro.hora }}</td>
+          <td>{{ registro.uid }}</td>
+	</tr>
+        {% endfor %}
+       
+    </table>
+    {% if registros %}
+      <p>
+      <a href="{% url 'borrar_registro_rfid' sensor_id=rfid.id %}"><button class="botonRegistro" type="submit">Eliminar registros</button></a>
+      </p>
+    {% endif %}
+</div>
+{% endblock %}
+

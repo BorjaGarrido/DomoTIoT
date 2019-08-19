@@ -4,6 +4,26 @@
 
 {% block content %}
 
+{% for rfid in listaRFID %}
+<div class="cajaSensor">
+    <h1><a href="">{{ rfid.nombre }}</a></h1>
+    <h2>Topic: {{ rfid.topic }}</h2>
+    <h2>Habitación: {{ rfid.habitacion }}</h2>
+    <h2>Último UID recogido: {{ rfid.uid }}</h2>
+    <br>
+	<p><img src="https://cdn-reichelt.de/bilder/web/xxl_ws/A300/SBC-RFID-RC522_01.png" height="150"></p>
+    <p align = "right">
+	<a href="{% url 'registro_Datos_rfid' sensor_id=rfid.id %}"><button class="botonRegistro" type="submit">Registros</button></a>
+    </p>
+</div>
+{% empty %}
+<div class="cajaEmpty">
+<h1>No hay ningún sensor rfid registrado</h1>
+</div>
 
+{% endfor %}
 
 {% endblock %}
+
+
+

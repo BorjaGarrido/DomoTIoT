@@ -4,6 +4,33 @@
 
 {% block content %}
 
-
+{% for ldr in listaLDR %}
+<div class="cajaSensor">
+    <h1><a href="">{{ ldr.nombre }}</a></h1>
+    <h2>Topic: {{ ldr.topic }}</h2>
+    <h2>Habitación: {{ ldr.habitacion }}</h2>
+    <h2><script class="cajaSensor">
+		if("{{ ldr.luminosidad }}" <= "1" && "{{ ldr.luminosidad }}" >= "0"){
+			nivel = "Baja"
+		}
+		else if("{{ ldr.luminosidad }}" <= "2" && "{{ ldr.luminosidad }}" > "1"){
+			nivel="Media"
+		}
+        else if("{{ ldr.luminosidad }}" <= "3.5" && "{{ ldr.luminosidad }}" > "2"){
+			nivel="Alta"
+		}
+        else if("{{ ldr.luminosidad }}" > "3.5"){
+			nivel="Muy alta"
+		}
+		document.write("Nivel de luz natural: "+nivel);
+    </script></h2>
+    <br>
+    <p><img src="http://kiilo.org/pub/playaround.ftpaccess.cc/project/physical+computing+2/outline/media_from_presentation/LDR.png" height="150"></p>
+</div>
+{% empty %}
+<div class="cajaEmpty">
+<h1>No hay ningún sensor ldr registrado</h1>
+</div>
+{% endfor %}
 
 {% endblock %}

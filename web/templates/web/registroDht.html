@@ -1,0 +1,41 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Registros DHT{% endblock %}
+
+{% block content %}
+<div class="cajaRegistroDetail" style="text-align:center">
+    <table class="table table-striped">
+        <tr>
+		  <th style="text-align:center">Fecha</th>
+          <th style="text-align:center">Temperatura máxima</th>
+          <th style="text-align:center">Hora</th>
+          <th style="text-align:center">Temperatura mínima</th>
+          <th style="text-align:center">Hora</th>
+          <th style="text-align:center">Humedad máxima</th>
+          <th style="text-align:center">Hora</th>
+          <th style="text-align:center">Humedad mínima</th>
+          <th style="text-align:center">Hora</th>
+        </tr>
+        
+        {% for registro in registros %}
+        <tr>
+          <td>{{ registro.fecha }}</td>
+          <td>{{ registro.temperaturaMax }}ºC</td>
+          <td>{{ registro.horaTMax }}</td>
+          <td>{{ registro.temperaturaMin }}ºC</td>
+          <td>{{ registro.horaTMin }}</td>
+          <td>{{ registro.humedadMax }}%</td>
+          <td>{{ registro.horaHMax }}</td>
+          <td>{{ registro.humedadMin }}%</td>
+          <td>{{ registro.horaHMin }}</td>
+	</tr>
+        {% endfor %}
+       
+    </table>
+    {% if registros %}
+      <p>
+      <a href="{% url 'borrar_registro_dht' sensor_id=dht.id %}"><button class="botonRegistro" type="submit">Eliminar registros</button></a>
+      </p>
+    {% endif %}
+</div>
+{% endblock %}

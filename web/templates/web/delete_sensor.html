@@ -1,6 +1,6 @@
 {% extends 'web/base.html' %}
 
-{% block title %}Borrar sensorT{% endblock %}
+{% block title %}Borrar sensor{% endblock %}
 
 {% load widget_tweaks %}
 
@@ -9,7 +9,7 @@
 
   <form method="post">
   {% csrf_token  %}
-    <h2>¿Está seguro de que quiere eliminar este sensor?</h2>
+    <h2 align = "center">¿Está seguro de que quiere eliminar este sensor?</h2>
 
     <div class="cajaBotonRegistro">
         <button class="botonRegistro" type="submit">Eliminar</button>

@@ -15,6 +15,12 @@ Tipo_Modulo = (
         ('puerta', 'puerta'),
     )
 
+Nivel_Programado = (
+        ('Baja', 'Baja'),
+        ('Media', 'Media'),
+        ('Máxima', 'Máxima'),
+    )
+
 
 class Modulo(models.Model):
     nombre = models.CharField(default=None, null=False, max_length= 50, unique=True)
@@ -29,39 +35,114 @@ class Modulo(models.Model):
 
 class dht(Modulo):
 
-    temperatura = models.FloatField(default=None, null=True)
-    humedad = models.FloatField(default=None, null=True)
+    temperatura = models.FloatField(default=0, null=True)
+    humedad = models.FloatField(default=0, null=True)
 
-    temperaturaMax = models.FloatField(default=None, null=True)
-    humedadMax = models.FloatField(default=None, null=True)
-    fechaTMax = models.DateField(default=timezone.now)
-    fechaHMax = models.DateField(default=timezone.now)
+    temperaturaMax = models.FloatField(default=0, null=True)
+    humedadMax = models.FloatField(default=0, null=True)
     horaTMax = models.TimeField(default=timezone.now)
     horaHMax = models.TimeField(default=timezone.now)
 
-    temperaturaMin = models.FloatField(default=None, null=True)
-    humedadMin = models.FloatField(default=None, null=True)
-    fechaTMin = models.DateField(default=timezone.now)
-    fechaHMin = models.DateField(default=timezone.now)
+    temperaturaMin = models.FloatField(default=100, null=True)
+    humedadMin = models.FloatField(default=100, null=True)
     horaTMin = models.TimeField(default=timezone.now)
     horaHMin = models.TimeField(default=timezone.now)
+    
+    incidencia = models.BooleanField(default=False);
+
+class registroDHT(models.Model):
+    
+    dht= models.ForeignKey(dht, on_delete=models.CASCADE)
+    
+    fecha = models.DateField(default=timezone.now)
+    
+    temperaturaMax = models.FloatField(default=0, null=True)
+    humedadMax = models.FloatField(default=0, null=True)
+    horaTMax = models.TimeField(default=timezone.now)
+    horaHMax = models.TimeField(default=timezone.now)
+
+    temperaturaMin = models.FloatField(default=100, null=True)
+    humedadMin = models.FloatField(default=100, null=True)
+    horaTMin = models.TimeField(default=timezone.now)
+    horaHMin = models.TimeField(default=timezone.now)
+
+class incidenciaDHT(models.Model):
+    
+    dht= models.ForeignKey(dht, on_delete=models.CASCADE)
+    
+    fecha = models.DateField(default=timezone.now)
+    
+    temperatura = models.FloatField(default=0, null=True)
+    humedad = models.FloatField(default=0, null=True)
+    hora = models.TimeField(default=timezone.now)
 
 class rfid(Modulo):
 	uid = models.CharField(default=None, null=True, max_length= 50)
 
-class mq2(Modulo):
-	lpg = models.FloatField(default=None, null=True);
-	co2 = models.FloatField(default=None, null=True);
-	smoke = models.FloatField(default=None, null=True);
+class registroRFID(models.Model):
+    
+    rfid= models.ForeignKey(rfid, on_delete=models.CASCADE)
+    
+    fecha = models.DateField(default=timezone.now)
+    hora = models.TimeField(default=timezone.now)
+    uid = models.CharField(default=None, null=True, max_length= 50)
 
+
+
+class mq2(Modulo):
+    lpg = models.FloatField(default=0, null=True);
+    co2 = models.FloatField(default=0, null=True);
+    smoke = models.FloatField(default=0, null=True);
+        
+    lpgMax = models.FloatField(default=0, null=True)
+    co2Max = models.FloatField(default=0, null=True)
+    smokeMax = models.FloatField(default=0, null=True)
+    horaLPGMax = models.TimeField(default=timezone.now)
+    horaCO2Max = models.TimeField(default=timezone.now)
+    horaSMOKEMax = models.TimeField(default=timezone.now)
+        
+    incidencia = models.BooleanField(default=False);
+
+class registroMQ2(models.Model):
+    
+    mq2= models.ForeignKey(mq2, on_delete=models.CASCADE)
+    
+    fecha = models.DateField(default=timezone.now)
+    
+    lpgMax = models.FloatField(default=0, null=True)
+    co2Max = models.FloatField(default=0, null=True)
+    smokeMax = models.FloatField(default=0, null=True)
+    horaLPGMax = models.TimeField(default=timezone.now)
+    horaCO2Max = models.TimeField(default=timezone.now)
+    horaSMOKEMax = models.TimeField(default=timezone.now)
+
+class incidenciaMQ2(models.Model):
+    
+    mq2= models.ForeignKey(mq2, on_delete=models.CASCADE)
+    
+    fecha = models.DateField(default=timezone.now)
+    
+    lpg = models.FloatField(default=0, null=True)
+    co2 = models.FloatField(default=0, null=True)
+    smoke = models.FloatField(default=0, null=True)
+    hora = models.TimeField(default=timezone.now)
+    
 class ldr(Modulo):
-	luminosidad = models.FloatField(default=None, null=True);
+	luminosidad = models.FloatField(default=0, null=True);
 
 class puerta(Modulo):
 	estado = models.BooleanField(default=False);
 
 class led(Modulo):
-	nivel = models.IntegerField(default=0, null=True);
+    nivel = models.IntegerField(default=0, null=True);
+    auto = models.BooleanField(default=False);
+    horaInicio = models.TimeField(default=timezone.now)
+    horaFin = models.TimeField(default=timezone.now)
+    autoProgramado = models.BooleanField(default=False);
+    flagAuto = models.BooleanField(default=False);
+    flagEnvio = models.BooleanField(default=False);
+    nivelProgramado = models.CharField(default=None, null=False, max_length=50, choices=Nivel_Programado)
+    
 
 class UserProfile(User):
     codigoHogar = models.CharField(default=None, null=True, max_length= 50)
@@ -73,6 +154,7 @@ class UserProfile(User):
     puerta = models.ManyToManyField(puerta, blank=True)
     led = models.ManyToManyField(led, blank=True)
     conectado = models.BooleanField(default=False, null=False);
+    ipBroker = models.CharField(default=None, null=True, max_length= 50)
 
     def __unicode__(self):
     	return self.user.username

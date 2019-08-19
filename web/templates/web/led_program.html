@@ -1,0 +1,30 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Formulario de programación de LED{% endblock %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="cajaRegistro">
+
+  <form method="post">
+  {% csrf_token  %}
+    <p><label for="id_horaInicio">Hora de encendido:</label> <input class="barraForm"  type="time" name="horaInicio" maxlength="150" id="id_horaInicio"></p>
+    <p><label for="id_horaFin">Hora de apagado:</label> <input class="barraForm"  type="time" name="horaFin" maxlength="150" id="id_horaFin"></p>
+    <p><label for="id_nivelProgramado">Intensidad de luz:</label><select class="barraForm" name="nivelProgramado" id="id_nivelProgramado">
+      <option value="Baja">Baja</option>
+      
+      <option value="Media">Media</option>
+      
+      <option value="Máxima">Máxima</option>
+	</select></p>
+
+    <div class="cajaBotonRegistro">
+        <button class="botonRegistro" type="submit">Cambiar hora</button>
+    </div>
+  </form>
+
+</div>
+
+{% endblock %}
+

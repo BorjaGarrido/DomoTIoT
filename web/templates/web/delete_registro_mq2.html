@@ -1,0 +1,23 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Borrar registro de sensor{% endblock %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="cajaRegistro">
+
+  <form method="post">
+  {% csrf_token  %}
+    <h2 align = "center">¿Está seguro de que quiere eliminar los registros de este 
+		 sensor?
+    </h2>
+
+    <div class="cajaBotonRegistro">
+        <button class="botonRegistro" type="submit">Eliminar</button>
+        <a href="{% url 'registro_Datos_mq2' sensor_id=mq2.id %}" class="botonRegistro">Cancelar</a>
+    </div>
+  </form>
+
+</div>
+{% endblock %}

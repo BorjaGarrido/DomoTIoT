@@ -4,6 +4,35 @@
 
 {% block content %}
 
+{% for mq2 in listaMQ2 %}
+<div class="cajaSensor">
+    <h1><a href="">{{ mq2.nombre }}</a></h1>
+    <h2>Topic: {{ mq2.topic }}</h2>
+    <h2>Habitación: {{ mq2.habitacion }}</h2>
+    <br>
+    <p>GLP actual: {{ mq2.lpg }}ppm</p>
+    <p>CO2 actual: {{ mq2.co2 }}ppm</p>
+    <p>Humo actual: {{ mq2.smoke }}ppm</p>
+    <br>
+    <p>LPG máximo: {{ mq2.lpgMax }}ppm. Recogida 
+        a las {{ mq2.horaLPGMax }}</p>
+    <p>CO2 máximo: {{ mq2.co2Max }}ppm. Recogida 
+        a las {{ mq2.horaCO2Max }}</p>
+    <p>Humo máximo: {{ mq2.smokeMax }}ppm. Recogida 
+        a las {{ mq2.horaSMOKEMax }}</p>    
+    <br>
+    <p><img src="https://thestempedia.com/wp-content/uploads/2018/06/MQ-2-Gas-Sensor-2.png" height="150"></p>
+    
+    <p align = "right">
+		<a href="{% url 'registro_Datos_mq2' sensor_id=mq2.id %}"><button class="botonRegistro" type="submit">Registros</button></a>
+        <a href="{% url 'incidencia_Datos_mq2' sensor_id=mq2.id %}"><button class="botonRegistro" type="submit">Incidencias</button></a>
+    </p>
+</div>
+{% empty %}
+<div class="cajaEmpty">
+<h1>No hay ningún sensor de calidad del aire registrado</h1>
+</div>
+{% endfor %}
 
 
 {% endblock %}

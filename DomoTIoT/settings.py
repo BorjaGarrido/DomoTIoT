@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from datetime import timedelta
+from celery.schedules import crontab
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -38,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'widget_tweaks',
     'django.contrib.staticfiles',
-    'background_task',
+    'django_celery_beat',
     'web',
 ]
 
@@ -111,6 +112,8 @@ LANGUAGE_CODE = 'es-es'
 
 TIME_ZONE = 'Europe/Madrid'
 
+CELERY_TIMEZONE = 'Europe/Madrid'
+
 USE_I18N = True
 
 USE_L10N = True
@@ -128,4 +131,59 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 LOGIN_REDIRECT_URL = '/web/modulos'
 LOGOUT_REDIRECT_URL = '/'
 
-BACKGROUND_TASK_RUN_ASYNC=True
+task_acks_late = True
+worker_prefetch_multiplier = 1
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'testDroid198@gmail.com'
+EMAIL_HOST_PASSWORD = '1122manoloxd'
+EMAIL_PORT = 587
+
+BROKER_URL = 'amqp://guest:guest@localhost//'
+
+# CELERY ROUTES
+CELERY_ROUTES = {
+    'core.tasks.rfidData': {'queue': 'cola_rfid'},
+    'core.tasks.puertaOpen': {'queue': 'cola_puerta'},
+}
+
+CELERYBEAT_SCHEDULE = { 
+    'puertaOpen-every-20-seconds': { 
+        'task': 'web.tasks.puertaOpen', 
+        'schedule': timedelta(seconds=15),
+        'args': () 
+    },
+    'rfidData-every-10-seconds': { 
+        'task': 'web.tasks.rfidData', 
+        'schedule': timedelta(seconds=10),
+        'args': () 
+    },
+    'sensorData-every-30-seconds': { 
+        'task': 'web.tasks.sensorData', 
+        'schedule': timedelta(seconds=30), 
+        'args': () 
+    },
+    'autoProgramLedData-every-60-second': { 
+        'task': 'web.tasks.autoProgramLed', 
+        'schedule': timedelta(seconds=60), 
+        'args': () 
+    },
+    'registros-every-day': { 
+        'task': 'web.tasks.registros', 
+        'schedule': crontab(hour=00, minute=0), 
+        'args': () 
+    },
+    'incidencias-every-60-seconds': { 
+        'task': 'web.tasks.incidencias', 
+        'schedule': timedelta(seconds=60), 
+        'args': () 
+    },
+    'reiniciarIncidencias-every-30-minutes': { 
+        'task': 'web.tasks.reiniciarIncidencias', 
+        'schedule': timedelta(seconds=1800), 
+        'args': () 
+    },
+}
+
+

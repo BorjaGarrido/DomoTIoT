@@ -1,35 +1,92 @@
-from .models import Modulo, UserProfile, dht, rfid, mq2, ldr, puerta, led
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
 import paho.mqtt.client as mqtt
 
-def on_message_dht(mosq, obj, msg, sensor_id):
-    # This callback will only be called for messages with topics that match
-    # $SYS/broker/bytes/#
+from django.shortcuts import render, render_to_response, get_object_or_404
+from django.utils import timezone
+from datetime import datetime
+from django.utils import formats
+from .forms import registroForm, editUserForm
+from .forms import  addSensorForm, newSensorForm, editSensorForm
+from .models import Modulo, UserProfile, dht, rfid, mq2, ldr, puerta, led
+from django.contrib import messages
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.views.generic import CreateView
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+from django.conf import settings
+from django.shortcuts import redirect
+from datetime import datetime
+from django.utils import timezone
+from .tasks import *
+import smtplib
+import paho.mqtt.subscribe as subscribe
+import paho.mqtt.publish as publish
+import time
 
-    member = request.user.userprofile
+def on_connect(client, userdata, rc):
+    client.subscribe("casa/rfid")
 
-    sensor = member.dht.get(pk=sensor_id)
+def on_message(client, userdata, msg):
+    members = UserProfile.objects.all()
+    
+    for member in members:
+            
+            listaRFID = member.rfid.all()
+            
+            ipBroker = member.ipBroker
+            
+            for sensor in listaRFID:
 
-    men = str(msg.payload)
-    men = men.replace("'", "")
-    men = men.replace("b", "")
-    men = men.replace("Hum", "")
-    men = men.replace("Temp", "")
-    men = men.split(" ")
+                topic = sensor.topic
 
-    sensor.temperatura = float(men[1])
-    sensor.humedad = float(men[3])
+                #m = subscribe.simple(topic, hostname=ipBroker, retained=False)
+                
+                men = str(msg.payload)
 
-    sensores.save()
-    member.dht.add(sensor)
+                men = men.replace("'", "")
+                men = men.replace("b", "")
+                men = men.replace("UID Tag", "")
+                men = men.split(" ")
 
-    return render(request, 'web/dht_mqtt.html')
+                mens = str(men[1]+" "+men[2]+" "+men[3]+" "+men[4])
+                
+                if mens == str(member.uid):
 
-mqttc = mqtt.Client()
+                    sensor.uid = mens
 
-# Add message callbacks that will only trigger on a specific subscription match.
-mqttc.message_callback_add("casa/temperatura", on_message_dht)
+                    sensor.save()
+                    member.rfid.add(sensor)
+                    
+                    memberUser = UserProfile.objects.get(uid=sensor.uid)
+                    
+                    listaDOOR = memberUser.puerta.all()
+                    
+                    for door in listaDOOR:
+                        
+                        if door.habitacion == sensor.habitacion and door.estado == False:
+                            
+                            publish.single(door.topic, 1, hostname = member.ipBroker)
+                            
+                            door.estado = True
+                            
+                            door.save()
+                            memberUser.puerta.add(door) 
+                            
+                        if door.habitacion == sensor.habitacion and door.estado == True:
+                            
+                            publish.single(door.topic, 0, hostname = member.ipBroker)
+                            
+                            door.estado = False
+                            
+                            door.save()
+                            memberUser.puerta.add(door) 
+    pass
 
-mqttc.connect("192.168.1.143", 1883, 60)
-mqttc.subscribe("casa/#", 0)
+client = mqtt.Client()
+client.on_connect = on_connect
+client.on_message = on_message
+
+client.connect(localhost, 1883, 60)

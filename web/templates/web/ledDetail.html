@@ -4,4 +4,88 @@
 
 {% block content %}
 
+{% for led in listaLed %}
+<div class="cajaSensor">
+    <h1><a href="">{{ led.nombre }}</a></h1>
+    <h2>Topic: {{ led.topic }}</h2>
+    <h2>Habitación: {{ led.habitacion }}</h2> 
+    
+	<br>
+	
+    <div class="horaDetail">
+		<h2><script class="cajaSensor">
+			if("{{ led.autoProgramado }}" == "True"){
+				auto = "Activado"
+			}
+			else if("{{ led.autoProgramado }}" == "False"){
+				auto = "Desactivado"
+			}
+
+			document.write("Programado: "+auto);
+		</script></h2> 
+		
+		<h2>Hora de encendido: {{ led.horaInicio }}</h2>   
+		<h2>Hora de apagado: {{ led.horaFin }}</h2>
+		<h2>Intensidad de luz: {{ led.nivelProgramado }}</h2>
+		<a href="{% url 'led_datoProgramado' sensor_id=led.id %}"><button class="botonRegistro" type="submit">Programar</button></a>
+		<a href="{% url 'led_ProgramadoOn' sensor_id=led.id %}"><button class="botonRegistro" type="submit">On</button></a>
+		<a href="{% url 'led_ProgramadoOff' sensor_id=led.id %}"><button class="botonRegistro" type="submit">Off</button></a>
+    </div>
+    
+    <br>
+    
+     <div class="horaDetail">
+	<h2><script class="cajaSensor">
+		if("{{ led.auto }}" == "True"){
+			auto = "Activada"
+		}
+		else if("{{ led.auto }}" == "False"){
+			auto="Desactivada"
+		}
+
+		document.write("Intensidad automática: "+auto);
+    </script></h2>
+    <h2><script class="cajaSensor">
+		if ("{{ led.nivel }}" == "0") {
+		  var estado = "Apagado";
+		}else if("{{ led.nivel }}" == "124") {
+		  var estado = "Baja";
+		}else if("{{ led.nivel }}" == "512") {
+		  var estado = "Media";
+		}else if("{{ led.nivel }}" == "1024") {
+		  var estado = "Máxima";
+		}   
+		
+		document.write("Intensidad de luz: "+estado);
+    </script></h2> 
+    
+    <p>
+		<a href="{% url 'led_auto' sensor_id=led.id %}"><button class="botonRegistro" type="submit">Auto</button></a>
+		<a href="{% url 'led_apagado' sensor_id=led.id %}"><button class="botonRegistro" type="submit">Off</button></a>
+		<a href="{% url 'led_bajo' sensor_id=led.id %}"><button class="botonRegistro" type="submit">Low</button></a>
+		<a href="{% url 'led_media' sensor_id=led.id %}"><button class="botonRegistro" type="submit">Mid</button></a>
+		<a href="{% url 'led_maxima' sensor_id=led.id %}"><button class="botonRegistro" type="submit">Max</button></a>
+    </p>
+    
+    </div>
+    
+    <br>
+    
+    <p>
+		
+		<img src="https://img.blogs.es/renault/wp-content/uploads/2017/07/led-543475_1280.png" height="150">
+		<img src="http://esploradores.com/Practicas_html/LED_encendido.png" height="150">
+    
+    </p>
+    
+</div>
+{% empty %}
+<div class="cajaEmpty">
+<h1>No hay ningún sensor led registrado</h1>
+</div>
+{% endfor %}
+
 {% endblock %}
+
+
+

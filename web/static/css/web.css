@@ -295,6 +295,18 @@ body {
   float: left;
 }
 
+.horaDetail {
+   width: 65%;
+   margin: auto;
+   padding-top: 5px;
+   padding-bottom: 5px;
+  -moz-border-radius: 20px 20px 20px 20px;
+  -webkit-border-radius: 20px 20px 20px 20px;
+  -webkit-box-shadow: 7px 7px 14px 2px rgba(0,0,0,0.65);
+  -moz-box-shadow: 7px 7px 14px 2px rgba(0,0,0,0.65);
+  box-shadow: 7px 7px 14px 2px rgba(0,0,0,0.65);
+}
+
 .hora {
   width:30%;
   font-size: 38pt;
@@ -382,7 +394,7 @@ body {
 }
 
 .cajaSensorDetail {
-  width:50%;
+  width:75%;
   height:100%;
   font-size: 18pt;
   font-weight: 400;
@@ -398,6 +410,43 @@ body {
   padding-left: 20px;
   font-family: 'Sunflower', sans-serif;
 }
+
+.cajaB {
+  width: 80%;
+  height:100%;
+  font-size: 18pt;
+  font-weight: 400;
+  text-align: justify;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  margin-bottom: auto;
+  overflow: hidden;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  font-family: 'Sunflower', sans-serif;
+}
+
+.cajaRegistroDetail {
+  width:100%;
+  height:100%;
+  font-size: 18pt;
+  font-weight: 400;
+  text-align: justify;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  margin-bottom: auto;
+  overflow: hidden;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  font-family: 'Sunflower', sans-serif;
+}
+
 
 .cajaRegistro {
   width:40%;
@@ -602,4 +651,13 @@ body {
 }
 #main-footer a {
 		color: white;
+}
+
+.cajaRegistrosDht {
+  position: relative;
+}
+.botonRegistrosDht {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }

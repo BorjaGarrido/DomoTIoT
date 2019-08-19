@@ -17,6 +17,8 @@
     <p><label for="id_uid">Identificador UID:</label> <input class="barraForm"  type="text" name="uid" maxlength="250" required="" id="id_uid"></p>
     <h2>{{ form.codigoHogar.errors.as_text }}</h2>
     <p><label for="id_uid">Código del hogar:</label> <input class="barraForm"  type="text" name="codigoHogar" maxlength="250" required="" id="id_codigoHogar"><span class="helptext"></span></p><ul><li>El código del hogar es único e inmodificable.</li></ul><p></p>
+    <h2>{{ form.ipBroker.errors.as_text }}</h2>
+    <p><label for="id_uid">IP del Broker:</label> <input class="barraForm"  type="text" name="ipBroker" maxlength="250" required="" id="id_ipBroker"><span class="helptext"></span></p><ul><li>Esta IP corresponde a la del Broker del sistema, del cual se obtendrán los datos de los sensores.</li></ul><p></p>
     <h2>{{ form.password1.errors.as_text }}</h2>
     <p><label for="id_password1">Contraseña:</label> <input class="barraForm"  type="password" name="password1" required="" id="id_password1"> <span class="helptext"></span></p><ul><li>Su contraseña no puede asemejarse tanto a su otra información personal.</li><li>Su contraseña debe contener al menos 8 caracteres.</li><li>Su contraseña no puede ser una clave utilizada comunmente.</li><li>Su contraseña no puede ser completamente numérica.</li></ul><p></p>
     <h2>{{ form.password2.errors.as_text }}</h2>

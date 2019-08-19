@@ -9,22 +9,26 @@
     <h1><a href="">{{ dht.nombre }}</a></h1>
     <h2>Topic: {{ dht.topic }}</h2>
     <h2>Habitación: {{ dht.habitacion }}</h2>
-    <h2> {{ number }}</h2>
     <br>
     <p>Temperatura actual: {{ dht.temperatura }}ºC</p>
     <p>Humedad actual: {{ dht.humedad }}%</p>
     <br>
-    <p>Temperatura máxima: {{ dht.temperaturaMax }}ºC. Recogida el
-      {{ dht.fechaTMax }} a las {{ dht.horaTMax }}</p>
-    <p>Humedad máxima: {{ dht.humedadMax }}%. Recogida el
-      {{ dht.fechaTMax }} a las {{ dht.horaHMax }}</p>
+    <p>Temperatura máxima: {{ dht.temperaturaMax }}ºC. Recogida 
+        a las {{ dht.horaTMax }}</p>
+    <p>Humedad máxima: {{ dht.humedadMax }}%. Recogida 
+        a las {{ dht.horaHMax }}</p>
     <br>
     <p>Temperatura mínima: {{ dht.temperaturaMin }}ºC. Recogida el
-      {{ dht.fechaTMin}} a las {{ dht.horaTMin }}</p>
-    <p>Humedad mínima: {{ dht.humedadMin }}%. Recogida el
-      {{ dht.fechaHMin }} a las {{ dht.horaHMin }}</p>
+        a las {{ dht.horaTMin }}</p>
+    <p>Humedad mínima: {{ dht.humedadMin }}%. Recogida
+        a las {{ dht.horaHMin }}</p>
     <br>
     <p><img src="http://tng.earth/img/parts/dht22.png" height="150"></p>
+    
+    <p align = "right">
+		<a href="{% url 'registro_Datos_dht' sensor_id=dht.id %}"><button class="botonRegistro" type="submit">Registros</button></a>
+        <a href="{% url 'incidencia_Datos_dht' sensor_id=dht.id %}"><button class="botonRegistro" type="submit">Incidencias</button></a>
+    </p>
 </div>
 {% empty %}
 <div class="cajaEmpty">
