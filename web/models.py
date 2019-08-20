@@ -77,7 +77,8 @@ class incidenciaDHT(models.Model):
     hora = models.TimeField(default=timezone.now)
 
 class rfid(Modulo):
-	uid = models.CharField(default=None, null=True, max_length= 50)
+    uid = models.CharField(default=None, null=True, max_length= 50)
+    lastUID = models.CharField(default=None, null=True, max_length= 50)
 
 class registroRFID(models.Model):
     

@@ -13,6 +13,31 @@
     <p>GLP actual: {{ mq2.lpg }}ppm</p>
     <p>CO2 actual: {{ mq2.co2 }}ppm</p>
     <p>Humo actual: {{ mq2.smoke }}ppm</p>
+    <h2><script class="cajaSensor">
+		if("{{ mq2.lpg }}" == "0" && "{{ mq2.co2 }}" == "0" && "{{ mq2.smoke }}" == "0"){
+            
+			nivel = "Buena"
+		}
+		else if("{{ mq2.lpg }}" <= "0.5" || "{{ mq2.lpg }}" > "0" || 
+                "{{ mq2.co2 }}" <= "4" || "{{ mq2.co2 }}" > "0" ||
+                "{{ mq2.smoke }}" <= "3" || "{{ mq2.smoke }}" > "0"){
+                    
+			nivel="Aceptable"
+		}
+        else if("{{ mq2.lpg }}" < "2" || "{{ mq2.lpg }}" > "0.5" || 
+                "{{ mq2.co2 }}" < "8" || "{{ mq2.co2 }}" > "4" ||
+                "{{ mq2.smoke }}" < "6" || "{{ mq2.smoke }}" > "3"){
+                    
+			nivel="Mala"
+		}
+        else if("{{ mq2.lpg }}" >= "2" && "{{ mq2.co2 }}" >= "8" && "{{ mq2.smoke }}" >= "6"){
+            
+			nivel="Muy mala. ¡Peligro!"
+		}
+		document.write("Calidad del aire: "+nivel);
+    </script></h2>
+    
+    
     <br>
     <p>LPG máximo: {{ mq2.lpgMax }}ppm. Recogida 
         a las {{ mq2.horaLPGMax }}</p>

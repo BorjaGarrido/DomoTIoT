@@ -322,6 +322,8 @@ def puertaOpen():
                         
                         registro.save()
                         
+                        sensor.lastUID = sensor.uid
+                        
                         sensor.uid = None
                         
                         sensor.save()
@@ -394,7 +396,7 @@ def registros():
                 
                     lpgMax = lpg,
                     co2Max = co2,
-                    smokeTMax = smoke,
+                    smokeMax = smoke,
                     horaLPGMax = horal,
                     horaCO2Max = horac,
                     horaSMOKEMax = horas,)
